@@ -52,8 +52,16 @@ export default function AIChat() {
         setIsLoading(true)
 
         try {
+            console.log('API呼び出し開始:', userMessage.content)
+
+            // フルURLを使用してAPIを呼び出し
+            const baseUrl = window.location.origin
+            const apiUrl = `${baseUrl}/api/chat`
+
+            console.log('API URL:', apiUrl)
+
             // Dify APIの呼び出し
-            const response = await fetch('/api/chat', {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,14 +69,26 @@ export default function AIChat() {
                 body: JSON.stringify({
                     message: userMessage.content,
                     conversation_id: null // 新規会話
-                })
+                }),
+                // タイムアウトを設定
+                signal: AbortSignal.timeout(30000) // 30秒でタイムアウト
             })
 
+            console.log('API レスポンス status:', response.status)
+
             if (!response.ok) {
-                throw new Error('API呼び出しに失敗しました')
+                let errorData
+                try {
+                    errorData = await response.json()
+                } catch (e) {
+                    errorData = { error: `HTTP ${response.status}: ${response.statusText}` }
+                }
+                console.error('API呼び出しエラー:', errorData)
+                throw new Error(errorData.error || `API呼び出しに失敗しました: ${response.status}`)
             }
 
             const data = await response.json()
+            console.log('API レスポンス data:', data)
 
             const assistantMessage: Message = {
                 id: (Date.now() + 1).toString(),
@@ -80,13 +100,26 @@ export default function AIChat() {
             setMessages(prev => [...prev, assistantMessage])
         } catch (error) {
             console.error('チャットエラー:', error)
-            const errorMessage: Message = {
+
+            let errorMessage = '申し訳ございません。エラーが発生しました。'
+
+            if (error instanceof Error) {
+                if (error.name === 'TimeoutError') {
+                    errorMessage = 'タイムアウトしました。しばらくしてから再度お試しください。'
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'サーバーに接続できません。開発サーバーが起動しているか確認してください。'
+                } else {
+                    errorMessage = `エラー: ${error.message}`
+                }
+            }
+
+            const errorMsg: Message = {
                 id: (Date.now() + 1).toString(),
-                content: '申し訳ございません。現在サービスが利用できません。しばらくしてから再度お試しください。',
+                content: errorMessage,
                 role: 'assistant',
                 timestamp: new Date()
             }
-            setMessages(prev => [...prev, errorMessage])
+            setMessages(prev => [...prev, errorMsg])
         } finally {
             setIsLoading(false)
         }
@@ -172,8 +205,8 @@ export default function AIChat() {
                             >
                                 <div
                                     className={`max-w-[80%] p-3 rounded-lg ${message.role === 'user'
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-gray-100 text-gray-800'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-gray-100 text-gray-800'
                                         }`}
                                 >
                                     <p className="text-sm leading-relaxed">{message.content}</p>
