@@ -1,5 +1,4 @@
 'use client'
-import { useState, useEffect } from 'react'
 import { useScroll } from '@/hooks/useScroll'
 
 export default function About() {

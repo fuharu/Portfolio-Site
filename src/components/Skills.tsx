@@ -101,7 +101,7 @@ export default function Skills() {
 
                     {/* スキルカテゴリ */}
                     <div className="grid md:grid-cols-3 gap-8">
-                        {skillCategories.map((category, categoryIndex) => (
+                        {skillCategories.map((category) => (
                             <div
                                 key={category.title}
                                 className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300"
@@ -114,7 +114,7 @@ export default function Skills() {
 
                                 {/* スキルリスト */}
                                 <div className="space-y-4">
-                                    {category.skills.map((skill, skillIndex) => (
+                                    {category.skills.map((skill) => (
                                         <div
                                             key={skill.name}
                                             className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"

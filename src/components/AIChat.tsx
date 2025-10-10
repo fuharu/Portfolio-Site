@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
-import { useScroll } from '@/hooks/useScroll'
 
 interface Message {
     id: string
@@ -10,7 +9,6 @@ interface Message {
 }
 
 export default function AIChat() {
-    const { scrollY } = useScroll()
     const [isOpen, setIsOpen] = useState(false)
     const [messages, setMessages] = useState<Message[]>([
         {

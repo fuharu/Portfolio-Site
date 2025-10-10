@@ -1,37 +1,31 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
-import { useSmoothScroll } from '@/hooks/useSmoothScroll'
-
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 export default function Hero() {
     const [currentTextIndex, setCurrentTextIndex] = useState(0)
     const [displayedText, setDisplayedText] = useState("")
-    const [isTyping, setIsTyping] = useState(false)
     const [showCursor, setShowCursor] = useState(true)
     const [underlineWidth, setUnderlineWidth] = useState(100)
     const [isDeleting, setIsDeleting] = useState(false)
     const [deleteIndex, setDeleteIndex] = useState(0)
     const deleteIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-    // スムーズスクロール機能
-    const { handleSmoothScroll } = useSmoothScroll()
-
-    const textVariations = [
+    const textVariations = useCallback(() => [
         "フルスタック開発",
         "チーム開発",
         "ユーザー体験",
         "問題解決",
         "新しい技術",
         "プロダクト開発"
-    ]
+    ], [])
 
     //タイピングアニメーション
     useEffect(() => {
-        const currentText = textVariations[currentTextIndex]
+        const texts = textVariations()
+        const currentText = texts[currentTextIndex]
         let index = 0
 
         setDisplayedText("")
-        setIsTyping(true)
         setIsDeleting(false)
         const typeInterval = setInterval(() => {
             if (index < currentText.length) {
@@ -39,7 +33,6 @@ export default function Hero() {
                 index++
             } else {
                 clearInterval(typeInterval)
-                setIsTyping(false)
                 setUnderlineWidth(100)
                 setTimeout(() => {
                     setIsDeleting(true)
@@ -47,12 +40,13 @@ export default function Hero() {
             }
         }, 150)
         return () => clearInterval(typeInterval)
-    }, [currentTextIndex])
+    }, [currentTextIndex, textVariations])
 
     //削除アニメーション
     useEffect(() => {
         if (isDeleting) {
-            const currentText = textVariations[currentTextIndex]
+            const texts = textVariations()
+            const currentText = texts[currentTextIndex]
             setDeleteIndex(currentText.length)
             deleteIntervalRef.current = setInterval(() => {
                 setDeleteIndex(prev => {
@@ -71,7 +65,7 @@ export default function Hero() {
                 }
             }
         }
-    }, [isDeleting, currentTextIndex])
+    }, [isDeleting, currentTextIndex, textVariations])
 
     //削除完了後の処理
     useEffect(() => {
@@ -81,9 +75,10 @@ export default function Hero() {
                 deleteIntervalRef.current = null
             }
             setIsDeleting(false)
-            setCurrentTextIndex((prev) => (prev + 1) % textVariations.length)
+            const texts = textVariations()
+            setCurrentTextIndex((prev) => (prev + 1) % texts.length)
         }
-    }, [deleteIndex, isDeleting])
+    }, [deleteIndex, isDeleting, textVariations])
 
     //カーソルの点滅
     useEffect(() => {

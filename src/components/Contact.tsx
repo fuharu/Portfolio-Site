@@ -30,7 +30,7 @@ export default function Contact() {
             await new Promise(resolve => setTimeout(resolve, 1000))
             setSubmitStatus('success')
             setFormData({ name: '', email: '', subject: '', message: '' })
-        } catch (error) {
+        } catch {
             setSubmitStatus('error')
         } finally {
             setIsSubmitting(false)
@@ -217,7 +217,7 @@ export default function Contact() {
                             <div>
                                 <h3 className="text-2xl font-semibold text-white mb-6">その他の連絡先</h3>
                                 <div className="space-y-4">
-                                    {contactMethods.map((method, index) => (
+                                    {contactMethods.map((method) => (
                                         <a
                                             key={method.title}
                                             href={method.href}
