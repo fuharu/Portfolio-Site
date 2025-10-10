@@ -69,7 +69,7 @@ export default function About() {
                                     <span className="text-white text-3xl font-bold">藤</span>
                                 </div>
                                 <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto">
-                                    茨城大学工学部情報工学科で、WebフロントエンドとAI技術を学ぶ学生です。
+                                    茨城大学工学部情報工学科に在籍する藤本悠杜です。新しい技術、特にAIやWeb技術に強い関心を持ち、ユーザーにとって価値のあるプロダクトを開発することに情熱を注いでいます。
                                 </p>
                             </div>
                         </div>
@@ -78,31 +78,35 @@ export default function About() {
                             {/* カード1: プログラミングへの情熱 */}
                             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
                                 <h3 className="text-xl font-semibold text-white mb-4">プログラミングへの情熱</h3>
-                                <p className="text-gray-200">[ここに情熱と源泉の内容]</p>
+                                <p className="text-gray-200">
+                                    好奇心旺盛で、一度興味を持つと深く探求するタイプです。新しい技術、特にAIとWeb技術の融合に強い関心を持ち、ユーザーにとって価値のあるプロダクトを開発することに情熱を注いでいます。チームでは、積極的に意見交換を行い、より良いプロダクトを目指すことを大切にしています。
+                                </p>
                             </div>
 
                             {/* カード2: 強みとなる経験 */}
                             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
                                 <h3 className="text-xl font-semibold text-white mb-4">強みとなる経験</h3>
                                 <p className="text-gray-200 mb-3">
-                                    <strong>個人開発:</strong> 「私に投資して！」やポートフォリオサイトなど
+                                    <strong>個人開発:</strong> 「私に投資して！」やポートフォリオサイトなど、要件定義からデプロイまでの一連の開発フローを経験
                                 </p>
                                 <p className="text-gray-200">
-                                    <strong>チーム開発:</strong> ハッカソンやインターンで[役割と学び]
+                                    <strong>チーム開発:</strong> 技育CAMPハッカソンで努力賞を2回受賞。AI解析機能や自然言語処理システムの設計・実装を担当し、チーム開発での役割分担とコミュニケーションの重要性を学びました
                                 </p>
                             </div>
 
                             {/* カード3: 将来のビジョン */}
                             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
                                 <h3 className="text-xl font-semibold text-white mb-4">将来のビジョン</h3>
-                                <p className="text-gray-200">[ここに将来のビジョンの内容]</p>
+                                <p className="text-gray-200">
+                                    技術力と創造性を活かして、人々の生活を豊かにするサービス開発に貢献したいと考えています。特にAIとWeb技術の融合によるフルスタック開発者として、ユーザー中心のプロダクト開発を目指します。将来的には、チーム内での技術リードやメンターとして、後輩エンジニアの育成にも取り組みたいです。
+                                </p>
                             </div>
                         </div>
                         {/* 趣味・人柄 */}
                         <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm p-6 rounded-xl mb-12 border border-white/20">
                             <h3 className="text-xl font-semibold text-white mb-3">私について</h3>
                             <p className="text-gray-200">
-                                大学ではトランポリン部に所属し、[具体的な活動内容や学び]
+                                大学ではトランポリン部に所属し、チームワークと継続的な努力の重要性を学んでいます。興味のある分野はWebフロントエンド、AI、UI/UXデザイン、フルスタック開発で、オンライン学習や技術書籍を通じて常に新しい技術を習得しています。オープンソース活動や勉強会参加を通じて、技術コミュニティでの情報交換と知識共有も積極的に行っています。
                             </p>
                         </div>
                         <div>
@@ -113,13 +117,13 @@ export default function About() {
                                 </h3>
                                 <div className="flex justify-center gap-4">
                                     <a
-                                        href="mailto:your.email@example.com"
+                                        href="mailto:haruto7fujimoto@gmail.com"
                                         className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all"
                                     >
                                         Email
                                     </a>
                                     <a
-                                        href="#contact"
+                                        href="/contact"
                                         className="border border-blue-400 text-blue-400 px-6 py-3 rounded-lg font-semibold hover:bg-blue-400/10 transition-all"
                                     >
                                         お問い合わせフォーム

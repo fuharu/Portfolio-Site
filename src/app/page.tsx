@@ -1,22 +1,18 @@
-import Image from "next/image";
+import { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
-import About from '@/components/About'
-import Skills from '@/components/Skills'
-import Projects from '@/components/Projects'
-import Contact from '@/components/Contact'
-import AIChat from '@/components/AIChat'
+
+export const metadata: Metadata = {
+  title: '藤本悠杜 - ポートフォリオサイト',
+  description: '茨城大学工学部情報工学科の藤本悠杜のポートフォリオサイト。AIとWeb技術を融合したフルスタック開発者として、ユーザー中心のプロダクト開発に取り組んでいます。',
+  keywords: ['藤本悠杜', 'ポートフォリオ', 'フルスタック開発者', 'AI', 'Web技術', 'React', 'Next.js', 'Python'],
+}
 
 export default function Home() {
   return (
     <div>
       <Navigation />
       <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Contact />
-      <AIChat />
     </div>
   );
 }

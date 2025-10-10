@@ -1,6 +1,7 @@
 'use client'  // クライアントサイドコンポーネントとして動作させる
 
 import { useState, useEffect } from 'react'
+import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 
 export default function Navigation() {
     // ここに状態管理とロジックを書く
@@ -10,15 +11,40 @@ export default function Navigation() {
     //スクロール検知用の状態
     const [isScrolled, setIsScrolled] = useState(false)
 
+    // スムーズスクロール機能
+    const { handleSmoothScroll } = useSmoothScroll()
+
     //ナビゲーション項目の配列
     const navItems = [
-        { name: 'ホーム', href: '#home' },
-        { name: 'AI Chat', href: '#ai-chat' },
-        { name: 'About', href: '#about' },
-        { name: 'スキル', href: '#skills' },
-        { name: 'プロジェクト', href: '#projects' },
-        { name: 'お問い合わせ', href: '#contact' },
+        { name: 'ホーム', href: '/' },
+        { name: 'AI Chat', href: '/ai-chat' },
+        { name: 'About', href: '/about' },
+        { name: 'スキル', href: '/skills' },
+        { name: 'プロジェクト', href: '/projects' },
+        { name: 'お問い合わせ', href: '/contact' },
     ]
+
+    // ページ遷移処理（モバイルメニューを閉じる機能付き）
+    const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        // モバイルメニューを閉じる
+        setIsMenuOpen(false)
+
+        // ホームページの場合は、既にホームページにいるかチェック
+        if (href === '/') {
+            const homeElement = document.getElementById('home')
+            // home要素が存在する場合（既にホームページにいる場合）
+            if (homeElement) {
+                e.preventDefault()
+                const offsetTop = homeElement.offsetTop - 80
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                })
+            }
+            // home要素が存在しない場合（他のページにいる場合）は通常のページ遷移
+        }
+        // その他のページは通常の遷移を使用（hrefがそのまま機能）
+    }
 
     //スクロール検知の詳細
     useEffect(() => {
@@ -43,7 +69,11 @@ export default function Navigation() {
                 <div className="flex items-center justify-between h-16">
                     {/* ロゴ */}
                     <div className="flex-shrink-0">
-                        <a href="#home" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
+                        <a
+                            href="/"
+                            onClick={(e) => handleNavigation(e, '/')}
+                            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300 cursor-pointer"
+                        >
                             Portfolio
                         </a>
                     </div>
@@ -53,7 +83,8 @@ export default function Navigation() {
                             <a
                                 key={item.name}
                                 href={item.href}
-                                className="text-white hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-blue-900/30 relative group"
+                                onClick={(e) => handleNavigation(e, item.href)}
+                                className="text-white hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-blue-900/30 relative group cursor-pointer"
                             >
                                 {item.name}
                                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
@@ -84,8 +115,8 @@ export default function Navigation() {
                                     <a
                                         key={item.name}
                                         href={item.href}
-                                        className="text-white hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 hover:bg-blue-800/30"
-                                        onClick={() => setIsMenuOpen(false)}
+                                        onClick={(e) => handleNavigation(e, item.href)}
+                                        className="text-white hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 hover:bg-blue-800/30 cursor-pointer"
                                     >
                                         {item.name}
                                     </a>

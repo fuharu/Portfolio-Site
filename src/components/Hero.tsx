@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
+import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 
 
 export default function Hero() {
@@ -11,6 +12,9 @@ export default function Hero() {
     const [isDeleting, setIsDeleting] = useState(false)
     const [deleteIndex, setDeleteIndex] = useState(0)
     const deleteIntervalRef = useRef<NodeJS.Timeout | null>(null)
+
+    // スムーズスクロール機能
+    const { handleSmoothScroll } = useSmoothScroll()
 
     const textVariations = [
         "フルスタック開発",
@@ -121,10 +125,16 @@ export default function Hero() {
 
                     {/* CTAボタン */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="#projects" className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 hober:scale-105">
+                        <a
+                            href="/projects"
+                            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:scale-105 cursor-pointer"
+                        >
                             プロジェクトを見る
                         </a>
-                        <a href="#contact" className="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 hober:scale-105">
+                        <a
+                            href="/contact"
+                            className="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 hover:scale-105 cursor-pointer"
+                        >
                             お問い合わせ
                         </a>
                     </div>
