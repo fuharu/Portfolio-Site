@@ -159,11 +159,11 @@ export default function Projects() {
                         <p className="text-xl text-gray-300">プロジェクト紹介</p>
                     </div>
 
-                       {/* プロジェクト一覧 */}
-                       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                           {projects.map((project) => (
-                               <div
-                                   key={project.title}
+                    {/* プロジェクト一覧 */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                        {projects.map((project) => (
+                            <div
+                                key={project.title}
                                 className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105"
                             >
                                 {/* プロジェクト画像とカテゴリ */}
@@ -240,11 +240,11 @@ export default function Projects() {
                     </div>
 
                     {/* 開発経験セクション */}
-                       <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm p-8 rounded-xl border border-white/20">
-                           <h3 className="text-2xl font-semibold text-white mb-6 text-center">開発経験</h3>
-                           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                               {experienceItems.map((item) => (
-                                   <div key={item.title} className="text-center">
+                    <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm p-8 rounded-xl border border-white/20">
+                        <h3 className="text-2xl font-semibold text-white mb-6 text-center">開発経験</h3>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {experienceItems.map((item) => (
+                                <div key={item.title} className="text-center">
                                     <div className="text-3xl mb-3">{item.icon}</div>
                                     <h4 className="text-lg font-semibold text-white mb-2">{item.title}</h4>
                                     <p className="text-gray-200 text-sm leading-relaxed">{item.description}</p>

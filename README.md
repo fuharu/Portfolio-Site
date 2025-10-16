@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 藤本悠杜 - ポートフォリオサイト
 
-## Getting Started
+Next.js 15 + TypeScript + Tailwind CSSで構築された、モダンなポートフォリオサイトです。
 
-First, run the development server:
+## 🚀 特徴
+
+- ✨ **美しいUI/UX**: 泡アニメーションと波紋エフェクトによる没入感のある体験
+- 🤖 **AIチャットボット**: Dify RAG + Gemini 2.5 Flashで構築されたインタラクティブなAI
+- 📱 **レスポンシブデザイン**: モバイルからデスクトップまで最適化
+- ⚡ **高速**: Next.js 15の最新機能とパフォーマンス最適化
+
+## 📁 ディレクトリ構成
+
+```
+my-portfolio/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── about/              # Aboutページ
+│   │   ├── ai-chat/            # AI Chatページ
+│   │   ├── api/                # APIルート
+│   │   │   └── chat/           # チャットAPI
+│   │   ├── contact/            # Contactページ
+│   │   ├── projects/           # Projectsページ
+│   │   ├── skills/             # Skillsページ
+│   │   ├── globals.css         # グローバルスタイル
+│   │   ├── layout.tsx          # ルートレイアウト
+│   │   └── page.tsx            # ホームページ
+│   ├── components/             # Reactコンポーネント
+│   │   ├── layout/             # レイアウトコンポーネント
+│   │   │   └── Navigation.tsx
+│   │   └── features/           # 機能別コンポーネント
+│   │       ├── Hero.tsx
+│   │       ├── About.tsx
+│   │       ├── Skills.tsx
+│   │       ├── Projects.tsx
+│   │       ├── Contact.tsx
+│   │       ├── AIChat.tsx
+│   │       ├── GenieGPT.tsx
+│   │       └── RippleEffect.tsx
+│   ├── data/                   # データファイル
+│   │   ├── education.md
+│   │   ├── experience.md
+│   │   ├── goals.md
+│   │   ├── profile.md
+│   │   ├── projects.md
+│   │   └── skills.md
+│   ├── hooks/                  # カスタムフック
+│   │   ├── useScroll.ts
+│   │   └── useSmoothScroll.ts
+│   └── styles/                 # スタイルファイル
+│       ├── animations.css      # 泡アニメーション
+│       └── ripple.css          # 波紋アニメーション
+├── public/                     # 静的ファイル
+├── .env.local                  # 環境変数（ローカル）
+├── .env.example                # 環境変数サンプル
+└── package.json
+```
+
+## 🛠️ セットアップ
+
+### 1. リポジトリのクローン
+
+```bash
+git clone <your-repo-url>
+cd my-portfolio
+```
+
+### 2. 依存関係のインストール
+
+```bash
+npm install
+```
+
+### 3. 環境変数の設定
+
+`.env.example`をコピーして`.env.local`を作成し、必要な値を設定してください。
+
+```bash
+cp .env.example .env.local
+```
+
+**必要な環境変数:**
+- `NEXT_PUBLIC_DIFY_API_KEY`: Dify APIキー
+- `NEXT_PUBLIC_DIFY_API_URL`: Dify APIのURL
+
+### 4. 開発サーバーの起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで [http://localhost:3000](http://localhost:3000) を開いてください。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎨 主な機能
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 泡アニメーション
+水中の泡をイメージした、リアルで美しい背景アニメーション。個々の泡が独立して上昇し、自然な動きを再現しています。
 
-## Learn More
+### 波紋エフェクト
+クリック時に広がる波紋アニメーション。本物の水面のように、中心が濃く外側に向かって減衰します。複数の波紋が重なり合うことで、より豊かな表現を実現。
 
-To learn more about Next.js, take a look at the following resources:
+### AIチャットボット
+Dify RAGとGemini 2.5 Flashを活用した、インタラクティブなAIチャットボット。経歴、スキル、プロジェクトについて質問できます。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 スクリプト
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev          # 開発サーバーを起動
+npm run build        # プロダクションビルド
+npm run start        # プロダクションサーバーを起動
+npm run lint         # ESLintでコードチェック
+```
 
-## Deploy on Vercel
+## 🔧 技術スタック
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **AI**: Dify RAG + Gemini 2.5 Flash
+- **Deployment**: Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📚 詳細情報
+
+Next.jsについて詳しく学ぶには、以下のリソースを参照してください：
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
+- [Next.js GitHub repository](https://github.com/vercel/next.js)
+
+## 🚀 デプロイ
+
+このプロジェクトは[Vercel Platform](https://vercel.com)へのデプロイに最適化されています。
+
+詳細は[Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying)を参照してください。
+
+## 📄 ライセンス
+
+MIT License
+
+## 👤 作者
+
+藤本悠杜 (Yuto Fujimoto)
+- 茨城大学工学部情報工学科 3年生

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
-import Navigation from '@/components/Navigation'
-import AIChat from '@/components/AIChat'
+import Navigation from '@/components/layout/Navigation'
+import GenieGPT from '@/components/features/Haru-AI'
+import RippleEffect from '@/components/features/RippleEffect'
 
 export const metadata: Metadata = {
     title: 'AI Chat - 藤本悠杜',
@@ -10,19 +11,40 @@ export const metadata: Metadata = {
 
 export default function AIChatPage() {
     return (
-        <div>
-            <Navigation />
-            <div className="min-h-screen pt-16">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">AI Chat</h1>
-                        <p className="text-xl text-gray-300">藤本悠杜について何でも質問してください</p>
-                    </div>
-                    <div className="max-w-4xl mx-auto">
-                        <AIChat />
-                    </div>
+        <RippleEffect>
+            {/* 親要素に relative を設定 */}
+            <div className="relative min-h-screen">
+
+                {/* 1. 背景グラデーション (z-index: 0) */}
+                <div
+                    className="absolute inset-0 z-0"
+                    style={{
+                        background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%)',
+                        backgroundAttachment: 'fixed'
+                    }}
+                ></div>
+
+                {/* 2. 泡アニメーション (z-index: 10) */}
+                <div className="bubbles absolute inset-0 z-10">
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
+                    <div className="bubble"></div>
                 </div>
+
+                {/* 3. メインコンテンツ (z-index: 20) */}
+                <div className="relative z-20">
+                    <Navigation />
+                    <GenieGPT />
+                </div>
+
             </div>
-        </div>
+        </RippleEffect>
     )
 }

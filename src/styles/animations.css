@@ -1,0 +1,173 @@
+/* 泡アニメーション */
+
+/* 泡を配置するコンテナ（見えない） */
+.bubbles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* マウスイベントを無効化 */
+  overflow: hidden; /* コンテナからはみ出た泡を隠す */
+}
+
+/* 個々の泡のスタイル */
+.bubble {
+  position: absolute;
+  bottom: -100px; /* 画面下からスタート */
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  border-radius: 50%;
+  animation: rise 10s infinite ease-in;
+  
+  /* リアルさを出すためのスタイル */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  filter: blur(0.5px);
+  box-shadow: 
+    inset 0 0 10px rgba(255, 255, 255, 0.1),
+    0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+/* 泡の上昇アニメーション */
+@keyframes rise {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.8;
+  }
+  25% {
+    /* 少し横に揺れる動き */
+    transform: translateX(15px) scale(1.05);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-10px) scale(1.1);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateX(8px) scale(1.15);
+    opacity: 0.7;
+  }
+  100% {
+    /* 画面の上まで移動して消える */
+    transform: translateY(-120vh) translateX(-5px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* 泡のサイズ、位置、アニメーションの遅延をランダムにする */
+.bubble:nth-child(1) {
+  width: 20px;
+  height: 20px;
+  left: 10%;
+  animation-duration: 8s;
+  animation-delay: 0s;
+}
+
+.bubble:nth-child(2) {
+  width: 12px;
+  height: 12px;
+  left: 25%;
+  animation-duration: 6s;
+  animation-delay: 1s;
+}
+
+.bubble:nth-child(3) {
+  width: 30px;
+  height: 30px;
+  left: 40%;
+  animation-duration: 12s;
+  animation-delay: 2s;
+}
+
+.bubble:nth-child(4) {
+  width: 16px;
+  height: 16px;
+  left: 55%;
+  animation-duration: 7s;
+  animation-delay: 0.5s;
+}
+
+.bubble:nth-child(5) {
+  width: 24px;
+  height: 24px;
+  left: 70%;
+  animation-duration: 9s;
+  animation-delay: 3s;
+}
+
+.bubble:nth-child(6) {
+  width: 14px;
+  height: 14px;
+  left: 85%;
+  animation-duration: 5s;
+  animation-delay: 1.5s;
+}
+
+.bubble:nth-child(7) {
+  width: 22px;
+  height: 22px;
+  left: 15%;
+  animation-duration: 11s;
+  animation-delay: 4s;
+}
+
+.bubble:nth-child(8) {
+  width: 18px;
+  height: 18px;
+  left: 60%;
+  animation-duration: 8s;
+  animation-delay: 2.5s;
+}
+
+.bubble:nth-child(9) {
+  width: 26px;
+  height: 26px;
+  left: 35%;
+  animation-duration: 10s;
+  animation-delay: 0.8s;
+}
+
+.bubble:nth-child(10) {
+  width: 13px;
+  height: 13px;
+  left: 80%;
+  animation-duration: 6s;
+  animation-delay: 3.5s;
+}
+
+/* 汎用アニメーション */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* アニメーションクラス */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+

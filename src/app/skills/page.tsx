@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import Navigation from '@/components/Navigation'
-import Skills from '@/components/Skills'
+import Navigation from '@/components/layout/Navigation'
+import Skills from '@/components/features/Skills'
 
 export const metadata: Metadata = {
     title: 'Skills - 藤本悠杜',
