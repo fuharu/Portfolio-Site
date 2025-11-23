@@ -1,146 +1,191 @@
 'use client'
-import { useScroll } from '@/hooks/useScroll'
+import { useState } from 'react'
+import { Code2, Layers, Wrench, ArrowUpRight, BookOpen, Award, Sparkles } from 'lucide-react'
+import { projects } from '@/data/projects'
+import { useTranslations } from 'next-intl'
+
+interface Skill {
+    name: string
+    level: 'Expert' | 'Advanced' | 'Intermediate' | 'Basic'
+    descriptionKey: string
+    relatedProjects?: string[]
+    icon?: string
+}
+
+interface SkillCategory {
+    title: string
+    titleKey: string
+    icon: React.ReactNode
+    skills: Skill[]
+}
 
 export default function Skills() {
-    const { scrollY } = useScroll()
+    const [activeSkill, setActiveSkill] = useState<string | null>(null)
+    const t = useTranslations('Skills')
 
-    const skillCategories = [
+    // スキルに関連するプロジェクトを取得するヘルパー関数
+    const getRelatedProjects = (skillName: string) => {
+        return projects.filter(p => p.technologies.some(t => t.includes(skillName) || skillName.includes(t)))
+    }
+
+    const skillCategories: SkillCategory[] = [
         {
-            title: "言語",
-            icon: "</>",
+            title: "Languages",
+            titleKey: "categories.Languages",
+            icon: <Code2 className="w-6 h-6" />,
             skills: [
-                { name: "JavaScript", icon: "JS", color: "text-yellow-400" },
-                { name: "TypeScript", icon: "TS", color: "text-blue-400" },
-                { name: "Python", icon: "Py", color: "text-green-400" },
-                { name: "Java", icon: "Ja", color: "text-orange-400" },
-                { name: "C++", icon: "C++", color: "text-blue-300" }
+                { name: "TypeScript", level: "Advanced", descriptionKey: "items.TypeScript" },
+                { name: "JavaScript (ES6+)", level: "Advanced", descriptionKey: "items.JavaScript" },
+                { name: "Python", level: "Advanced", descriptionKey: "items.Python" },
+                { name: "Java", level: "Intermediate", descriptionKey: "items.Java" },
+                { name: "Rust", level: "Basic", descriptionKey: "items.Rust" }
             ]
         },
         {
-            title: "フレームワーク・ライブラリ",
-            icon: "⚛️",
+            title: "Frontend",
+            titleKey: "categories.Frontend",
+            icon: <Layers className="w-6 h-6" />,
             skills: [
-                { name: "React", icon: "R", color: "text-cyan-400" },
-                { name: "Next.js", icon: "N", color: "text-gray-300" },
-                { name: "Node.js", icon: "N", color: "text-green-300" },
-                { name: "Express", icon: "E", color: "text-gray-400" },
-                { name: "Django", icon: "D", color: "text-green-500" }
+                { name: "React", level: "Advanced", descriptionKey: "items.React" },
+                { name: "Next.js", level: "Advanced", descriptionKey: "items.Nextjs" },
+                { name: "Tailwind CSS", level: "Advanced", descriptionKey: "items.TailwindCSS" },
+                { name: "Three.js / R3F", level: "Basic", descriptionKey: "items.Threejs" }
             ]
         },
         {
-            title: "ツール・その他",
-            icon: "🛠️",
+            title: "Backend & Tools",
+            titleKey: "categories.BackendTools",
+            icon: <Wrench className="w-6 h-6" />,
             skills: [
-                { name: "Git", icon: "G", color: "text-red-400" },
-                { name: "Docker", icon: "D", color: "text-blue-500" },
-                { name: "AWS", icon: "A", color: "text-orange-500" },
-                { name: "Figma", icon: "F", color: "text-purple-400" },
-                { name: "PostgreSQL", icon: "P", color: "text-blue-600" }
+                { name: "Node.js", level: "Intermediate", descriptionKey: "items.Nodejs" },
+                { name: "FastAPI", level: "Intermediate", descriptionKey: "items.FastAPI" },
+                { name: "Git / GitHub", level: "Advanced", descriptionKey: "items.GitGitHub" },
+                { name: "Docker", level: "Intermediate", descriptionKey: "items.Docker" },
+                { name: "Firebase", level: "Intermediate", descriptionKey: "items.Firebase" }
             ]
         }
     ]
 
+    const learningNow = [
+        {
+            name: "AI Agents",
+            descriptionKey: "learning.AIAgents",
+            icon: <Sparkles className="w-5 h-5 text-yellow-500" />
+        },
+        {
+            name: "Rust for Web",
+            descriptionKey: "learning.RustWeb",
+            icon: <Code2 className="w-5 h-5 text-orange-500" />
+        },
+        {
+            name: "System Design",
+            descriptionKey: "learning.SystemDesign",
+            icon: <Layers className="w-5 h-5 text-blue-500" />
+        }
+    ]
+
     return (
-        <section id="skills" className="py-20 relative overflow-hidden">
-            {/* 図形レイヤー */}
-            <div className="absolute inset-0 z-5">
-                {/* 大きな六角形 */}
-                <svg
-                    className="absolute top-10 right-10 w-40 h-40 text-blue-500/20 transition-transform duration-100"
-                    style={{
-                        transform: `translate(${-scrollY * 0.05}px, ${scrollY * 0.08}px) rotate(${scrollY * 0.01}deg)`
-                    }}
-                >
-                    <polygon
-                        points="80,20 140,60 140,120 80,160 20,120 20,60"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                    />
-                </svg>
+        <section id="skills" className="container-custom py-32 md:py-40">
+            <div className="max-w-6xl mx-auto px-6">
+                {/* Header */}
+                <div className="mb-24 md:mb-32 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">{t('title')}</h2>
+                    <div className="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                    <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed whitespace-pre-line">
+                        {t('subtitle')}
+                    </p>
+                </div>
 
-                {/* 小さな八角形 */}
-                <svg
-                    className="absolute bottom-32 left-16 w-20 h-20 text-purple-400/25 transition-transform duration-100"
-                    style={{
-                        transform: `translate(${scrollY * 0.12}px, ${-scrollY * 0.06}px) rotate(${-scrollY * 0.04}deg)`
-                    }}
-                >
-                    <polygon
-                        points="40,5 70,5 90,25 90,55 70,75 40,75 20,55 20,25"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                    />
-                </svg>
-
-                {/* 三角形 */}
-                <svg
-                    className="absolute top-1/2 left-8 w-16 h-16 text-cyan-400/20 transition-transform duration-100"
-                    style={{
-                        transform: `translate(${scrollY * 0.08}px, ${scrollY * 0.1}px) rotate(${scrollY * 0.03}deg)`
-                    }}
-                >
-                    <polygon
-                        points="32,8 56,48 8,48"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                    />
-                </svg>
-            </div>
-
-            {/* コンテンツエリア */}
-            <div className="relative z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* ヘッダー */}
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Skills</h2>
-                        <p className="text-xl text-gray-300">技術スキル</p>
-                    </div>
-
-                    {/* スキルカテゴリ */}
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {skillCategories.map((category) => (
-                            <div
-                                key={category.title}
-                                className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300"
-                            >
-                                {/* カテゴリヘッダー */}
-                                <div className="text-center mb-6">
-                                    <div className="text-3xl mb-2">{category.icon}</div>
-                                    <h3 className="text-xl font-semibold text-white">{category.title}</h3>
+                {/* Skills Categories */}
+                <div className="grid lg:grid-cols-3 gap-12 mb-32">
+                    {skillCategories.map((category) => (
+                        <div key={category.title} className="flex flex-col gap-6">
+                            <div className="flex items-center gap-3 pb-4 border-b border-border">
+                                <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                                    {category.icon}
                                 </div>
-
-                                {/* スキルリスト */}
-                                <div className="space-y-4">
-                                    {category.skills.map((skill) => (
-                                        <div
-                                            key={skill.name}
-                                            className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
-                                        >
-                                            {/* スキルアイコン */}
-                                            <div className={`w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold ${skill.color}`}>
-                                                {skill.icon}
-                                            </div>
-
-                                            {/* スキル名 */}
-                                            <span className="text-white font-medium">{skill.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
+                                <h3 className="text-2xl font-bold">{t(category.titleKey)}</h3>
                             </div>
-                        ))}
-                    </div>
+                            
+                            <div className="space-y-4">
+                                {category.skills.map((skill) => (
+                                    <div 
+                                        key={skill.name}
+                                        className="group relative bg-card border border-border rounded-xl p-5 hover:border-primary/50 transition-all cursor-pointer"
+                                        onMouseEnter={() => setActiveSkill(skill.name)}
+                                        onMouseLeave={() => setActiveSkill(null)}
+                                    >
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h4 className="font-bold text-lg group-hover:text-primary transition-colors">{skill.name}</h4>
+                                            <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                                                skill.level === 'Expert' ? 'bg-purple-500/10 text-purple-500' :
+                                                skill.level === 'Advanced' ? 'bg-blue-500/10 text-blue-500' :
+                                                skill.level === 'Intermediate' ? 'bg-green-500/10 text-green-500' :
+                                                'bg-gray-500/10 text-gray-500'
+                                            }`}>
+                                                {skill.level}
+                                            </span>
+                                        </div>
+                                        
+                                        <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                                            {t(skill.descriptionKey)}
+                                        </p>
 
-                    {/* 追加情報 */}
-                    <div className="mt-12 text-center">
-                        <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/20 max-w-2xl mx-auto">
-                            <h4 className="text-lg font-semibold text-white mb-3">学習への取り組み</h4>
-                            <p className="text-gray-200">
-                                新しい技術への好奇心を大切にし、実践的なプロジェクトを通じて継続的にスキルアップを図っています。
-                                チーム開発での経験も活かし、コードの品質とユーザビリティを重視した開発を心がけています。
+                                        {/* Related Projects Indicator */}
+                                        {getRelatedProjects(skill.name).length > 0 && (
+                                            <div className="flex items-center gap-2 text-xs text-primary/80 font-medium pt-2 border-t border-border/50">
+                                                <Award size={14} />
+                                                <span>{t('relatedProjects', {count: getRelatedProjects(skill.name).length})}</span>
+                                            </div>
+                                        )}
+
+                                        {/* Hover Popup for Related Projects (Desktop only) */}
+                                        <div className={`absolute z-20 left-0 bottom-full mb-2 w-full bg-popover text-popover-foreground p-4 rounded-xl shadow-xl border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none md:pointer-events-auto ${getRelatedProjects(skill.name).length === 0 ? 'hidden' : ''}`}>
+                                            <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Related Projects</h5>
+                                            <ul className="space-y-2">
+                                                {getRelatedProjects(skill.name).map(project => (
+                                                    <li key={project.title} className="flex items-center gap-2 text-sm font-medium">
+                                                        <ArrowUpRight size={14} className="text-primary" />
+                                                        {project.title}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Learning Now Section */}
+                <div className="bg-secondary/20 border border-border rounded-3xl p-10 md:p-16">
+                    <div className="flex flex-col md:flex-row items-start gap-10">
+                        <div className="md:w-1/3">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                                <BookOpen size={16} />
+                                <span>{t('currentFocus')}</span>
+                            </div>
+                            <h3 className="text-3xl font-bold mb-4">{t('learningNowTitle')}</h3>
+                            <p className="text-muted-foreground leading-relaxed">
+                                {t('learningNowDescription')}
                             </p>
+                        </div>
+
+                        <div className="md:w-2/3 grid sm:grid-cols-2 gap-6">
+                            {learningNow.map((item) => (
+                                <div key={item.name} className="bg-background p-6 rounded-xl border border-border hover:shadow-md transition-all">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className="p-2 bg-secondary rounded-lg">
+                                            {item.icon}
+                                        </div>
+                                        <h4 className="font-bold">{item.name}</h4>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                        {t(item.descriptionKey)}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,250 @@
+{
+  "Navigation": {
+    "home": "ホーム",
+    "about": "経歴",
+    "skills": "スキル",
+    "projects": "作品",
+    "contact": "連絡先",
+    "aiChat": "AIチャット"
+  },
+  "Hero": {
+    "label": "Portfolio 2025",
+    "title": "Haruto Fujimoto",
+    "subtitle": "茨城大学 情報工学科。\nAI技術とデザインの境界線を探求し、\n機能的かつ感情に訴えるデジタル体験を構築します。",
+    "viewProjects": "作品を見る",
+    "contact": "お問い合わせ"
+  },
+  "FeaturedWorks": {
+    "title": "厳選した制作物",
+    "description": "厳選された制作物。技術力とデザイン思考の結晶です。",
+    "viewAll": "すべての作品を見る",
+    "details": "詳細"
+  },
+  "AboutSummary": {
+    "title": "私について",
+    "description": "茨城大学で情報工学を学びながら、実用的なWebアプリケーション開発に取り組んでいます。\n「技術で人の心を動かす」をモットーに、AI技術とモダンなWeb技術を組み合わせた新しい体験の創造に挑戦しています。",
+    "readMore": "詳しく読む"
+  },
+  "SkillsSummary": {
+    "title": "技術スキル",
+    "description": "モダンなWeb開発に必要な技術スタックを習得しています。"
+  },
+  "ContactCTA": {
+    "title": "一緒に働きませんか？",
+    "description": "プロジェクトのご依頼、技術的なご相談、または単なるご挨拶でも、お気軽にご連絡ください。新しい挑戦をお待ちしています。",
+    "contactMe": "お問い合わせ",
+    "visitGitHub": "GitHubを見る"
+  },
+  "About": {
+    "title": "About Me",
+    "subtitle": "Engineering with passion, designing with purpose.\n私の背景と、大切にしている価値観について。",
+    "name": "藤本 悠杜",
+    "role": "Haruto Fujimoto",
+    "profile": "茨城大学工学部情報工学科に在籍する、フルスタックエンジニア志望の大学生です。\n2023年の大学入学と同時にプログラミングの世界に飛び込みました。当初は「何か動くものを作りたい」という単純な興味から始まりましたが、ハッカソンやインターンシップ、個人開発を通じて、「技術を使って誰かの課題を解決する」「新しい価値体験を提供する」ことの喜びに目覚めました。\n現在は、生成AIを活用したアプリケーション開発や、React/Next.jsを用いたモダンなフロントエンド開発に注力しています。また、大学の研究室では「AI×SE（ソフトウェア工学）」をテーマに、より高品質で効率的なシステム開発手法の探求を始めています。",
+    "valuesTitle": "My Values",
+    "journeyTitle": "Journey",
+    "ctaTitle": "Let's build something amazing together",
+    "ctaDescription": "私の経験やスキルに興味を持っていただけましたか？\nお仕事のご依頼や、技術的なディスカッションなど、お気軽にご連絡ください。",
+    "ctaButton": "Get in Touch",
+    "timeline": {
+      "t1": {
+        "year": "2023.04",
+        "title": "茨城大学 工学部 情報工学科 入学",
+        "description": "プログラミングの基礎学習を開始すると同時に、トランポリン部に入部。学業と部活動の両立を通じて、継続力と体力を培う。"
+      },
+      "t2": {
+        "year": "2025.07",
+        "title": "初の本格的な個人開発「私に投資して！」リリース",
+        "description": "Next.jsとAI APIを活用し、教育投資のROIを可視化するWebアプリを開発。企画から実装、デプロイまでを一貫して行うことで、Web開発の全体像を習得。"
+      },
+      "t3": {
+        "year": "2025.09",
+        "title": "Sky株式会社 夏季インターンシップ参加（2週間）",
+        "description": "チーム開発におけるコードレビューや、実務レベルの品質管理を経験。ユーザー視点に立ったUI/UX設計の重要性を学ぶ。"
+      },
+      "t4": {
+        "year": "2025.11",
+        "title": "ハッカソン出場・アプリ開発",
+        "description": "「メールからのスケジュール自動抽出アプリ」をチームで開発。短期間での課題解決力と、生成AIをプロダクトに組み込む実践的なスキルを発揮。"
+      },
+      "t5": {
+        "year": "2025.11 - Present",
+        "title": "上田研究室（ソフトウェア工学）へ配属",
+        "description": "「AI×SE」や「シミュレーション技術」に関心を持ち、ソフトウェア開発と情報マネジメントの研究を開始。自身の開発経験を工学的な視点から再定義し、より高品質なシステム構築を探求していく。"
+      }
+    },
+    "values": {
+      "v1": {
+        "title": "User Centric",
+        "subtitle": "ユーザーへの共感",
+        "description": "「使う人の心が動くか」 技術はあくまで手段であり、目的はユーザーの課題解決と体験の向上にあります。論理的な機能実装だけでなく、ユーザーが触れた瞬間に「心地よい」「面白い」と感じられるエモーショナルな価値を大切にしています。"
+      },
+      "v2": {
+        "title": "Borderless Curiosity",
+        "subtitle": "境界のない好奇心",
+        "description": "「領域を限定しない」 Webフロントエンド、バックエンド、AI、そして3D表現。特定の技術領域に留まらず、作りたいものに合わせて新しい技術を貪欲に吸収し、それらを組み合わせることで新しい価値を生み出します。"
+      },
+      "v3": {
+        "title": "Professional Ownership",
+        "subtitle": "細部への責任",
+        "description": "「最後の1pxまでこだわり抜く」 個人開発からチーム開発、インターンシップまで、どの環境でも「動けばいい」ではなく「プロとして胸を張れる品質か」を自問自答します。コードの可読性からUIの挙動まで、細部へのこだわりが全体の質を決めると信じています。"
+      }
+    }
+  },
+  "Skills": {
+    "title": "Technical Skills",
+    "subtitle": "目的を実現するための道具箱。\nモダンな技術スタックを選定し、スケーラブルで保守性の高いコードを書くことを心がけています。",
+    "learningNowTitle": "Learning Now",
+    "learningNowDescription": "現状に満足せず、技術の幅を広げ続けています。特に「AIの実践的応用」と「高パフォーマンスなシステム設計」に関心があります。",
+    "currentFocus": "Current Focus",
+    "relatedProjects": "{count} プロジェクトで使用",
+    "categories": {
+      "Languages": "Languages",
+      "Frontend": "Frontend",
+      "BackendTools": "Backend & Tools"
+    },
+    "items": {
+      "TypeScript": "型安全性を活かした堅牢なアプリケーション開発。GenericsやUtility Typesを使いこなします。",
+      "JavaScript": "非同期処理、DOM操作、モダンな構文への深い理解。",
+      "Python": "データ分析、スクレイピング、AIモデルの実装。FastAPIを用いたバックエンド開発。",
+      "Java": "オブジェクト指向設計の基礎。大学の講義やAndroidアプリ開発で使用。",
+      "Rust": "メモリ安全性とパフォーマンスに関心を持ち、学習中。簡単なCLIツールを作成。",
+      "React": "Hooks、Context API、Custom Hooksを用いたコンポーネント設計。",
+      "Nextjs": "App Router, Server Actions, SSR/SSGの使い分け。パフォーマンス最適化。",
+      "TailwindCSS": "ユーティリティファーストなスタイリング。レスポンシブデザイン、ダークモード対応。",
+      "Threejs": "3D表現による没入感のあるUI実装。シェーダーの基礎学習中。",
+      "Nodejs": "Express.jsを用いたAPIサーバー構築。非同期処理の理解。",
+      "FastAPI": "型ヒントを活用した高速なAPI開発。Pythonエコシステムとの連携。",
+      "GitGitHub": "チーム開発におけるブランチ戦略（Git Flow）、プルリクエスト、コードレビュー。",
+      "Docker": "開発環境のコンテナ化。Dockerfile, docker-composeの作成。",
+      "Firebase": "Authentication, Firestore, Storageを用いたサーバーレス開発。"
+    },
+    "learning": {
+      "AIAgents": "自律的にタスクを遂行するAIエージェントの構築。LangChainやAutoGPTの仕組みを研究中。",
+      "RustWeb": "AxumやActix-webを用いた、超高速かつ安全なWebバックエンド開発。",
+      "SystemDesign": "大規模システムのアーキテクチャ設計。マイクロサービスや分散システムの学習。"
+    }
+  },
+  "Projects": {
+    "title": "Selected Works",
+    "subtitle": "個人的な探求から、チームでの課題解決まで。\n技術を使って形にしてきた、いくつかのプロジェクトを紹介します。",
+    "viewDetails": "View Details",
+    "viewGitHub": "View more on GitHub",
+    "modal": {
+      "overview": "Overview",
+      "behindTheScenes": "Behind the Scenes",
+      "summary": "Summary",
+      "keyFeatures": "Key Features",
+      "techStack": "Tech Stack",
+      "challenge": "Challenge (課題)",
+      "solution": "Solution (解決策)",
+      "outcome": "Outcome (成果)",
+      "viewSource": "View Source",
+      "liveDemo": "Live Demo"
+    }
+  },
+  "ProjectsData": {
+    "PortfolioSite": {
+      "description": "「成長と繋がり」をコンセプトにしたポートフォリオサイト。Difyで構築したRAGチャットボット(Haru-AI)を組み込み、インタラクティブな体験を提供。",
+      "fullDescription": "Next.js 14のApp Routerを活用し、SEOとパフォーマンスを最適化したポートフォリオサイトです。全体的なデザインは「美術館・ギャラリー」をテーマにし、作品（プロジェクト）が際立つようなミニマルで洗練されたUIを目指しました。また、自身の情報を学習させたAIチャットボットを統合することで、静的な情報だけでなく対話的な情報提供を可能にしています。",
+      "keyFeatures": {
+        "f1": "AIチャットボット(RAG)の統合",
+        "f2": "Light/Darkモード対応のテーマシステム",
+        "f3": "レスポンシブ対応のモダンUI",
+        "f4": "GSAPを使用した滑らかなアニメーション"
+      },
+      "process": {
+        "challenge": "静的なポートフォリオサイトでは、訪問者の疑問（例：具体的なスキルセットや経験の詳細）に即座に答えることが難しく、機会損失につながる可能性がありました。",
+        "solution": "Difyを用いたRAG（検索拡張生成）チャットボットを導入。自身の経歴やプロジェクト情報をナレッジベース化し、自然言語での質問に対して正確かつ文脈に沿った回答を生成できるようにしました。",
+        "outcome": "訪問者の滞在時間が向上し、技術的な質問への回答精度が高まったことで、より深いレベルでの自己アピールが可能になりました。"
+      }
+    },
+    "InvestInMe": {
+      "description": "個人投資家向けのポートフォリオ管理アプリケーション。直感的なUIで資産推移を可視化し、投資判断をサポートします。",
+      "fullDescription": "複数の証券口座を持つ個人投資家が、資産を一元管理するためのWebアプリケーションです。Excel管理からの脱却を目指し、日々の資産推移をグラフで可視化する機能や、ポートフォリオのバランス分析機能を実装しました。",
+      "keyFeatures": {
+        "f1": "資産推移のリアルタイムグラフ表示",
+        "f2": "ドラッグ＆ドロップによる直感的な操作",
+        "f3": "CSVインポート/エクスポート機能"
+      },
+      "process": {
+        "challenge": "大量の取引データをクライアントサイドで処理する際、再レンダリングによるパフォーマンス低下が課題となりました。",
+        "solution": "React.memoによるメモ化と、Web Workerを用いた計算処理のオフロードを実施。また、グラフ描画ライブラリ（Recharts）の設定を最適化し、大量データでもスムーズな描画を実現しました。",
+        "outcome": "数千件のデータポイントを含むグラフでも60fpsでのスムーズな操作が可能になり、UXが大幅に向上しました。"
+      }
+    },
+    "MailDeCalen": {
+      "description": "GmailとGoogleカレンダーを連携したAIスケジュール管理アシスタント。Gemini AIがメール内容を解析し、予定を自動登録します。",
+      "fullDescription": "「メールでの日程調整の手間をゼロにする」ことを目指したハッカソン開発プロダクトです。受信したメールをAIが解析し、会議の日時、場所、参加者を抽出してGoogleカレンダーに仮登録します。ユーザーは通知を確認して承認するだけでスケジュール管理が完了します。",
+      "keyFeatures": {
+        "f1": "Gemini Proによる高精度なエンティティ抽出",
+        "f2": "Gmail/Calendar APIとのセキュアな連携",
+        "f3": "リアルタイム通知システム"
+      },
+      "process": {
+        "challenge": "メール本文の非構造化データから、日時や場所を正確に抽出することの難易度が高く、従来の正規表現アプローチでは限界がありました。",
+        "solution": "Gemini Pro APIを活用し、Few-shotプロンプティングによって抽出精度を向上。また、抽出結果を構造化データ（JSON）として出力させることで、後続の処理を安定化させました。",
+        "outcome": "複雑な文面のメールでも90%以上の精度でスケジュール情報を抽出することに成功し、ハッカソンでの受賞に繋がりました。"
+      }
+    },
+    "Nazomi": {
+      "description": "匿名日記マッチングサービス。自然言語処理(NLP)を用いて投稿内容の感情分析を行い、共感度の高いユーザー同士をマッチングさせます。",
+      "fullDescription": "現代社会の孤独感を解消するためのメンタルヘルスケアアプリです。ユーザーは匿名で日記を書き、AIがその感情（喜び、悲しみ、怒りなど）を分析。似た感情を持つユーザーとマッチングし、一時的なチャットルームで悩みを共有できます。",
+      "keyFeatures": {
+        "f1": "spaCyを用いた日本語感情分析",
+        "f2": "WebSocketによるリアルタイムチャット",
+        "f3": "完全匿名性の担保"
+      },
+      "process": {
+        "challenge": "リアルタイムチャットの実装において、サーバー負荷とメッセージの遅延を最小限に抑える必要がありました。",
+        "solution": "FastAPIとWebSocketを使用し、非同期処理ベースのチャットサーバーを構築。RedisをPub/Subメッセージング層として導入し、スケーラビリティを確保しました。",
+        "outcome": "100人規模の同時接続テストでも低遅延でのメッセージ送受信を実現し、スムーズなコミュニケーション環境を提供できました。"
+      }
+    },
+    "StampRallyMap": {
+      "description": "地域観光促進のためのスタンプラリーアプリ。Google Maps APIと位置情報を活用し、特定のスポットに到達するとスタンプを獲得できます。",
+      "fullDescription": "大学の講義課題としてチームで開発した、地域活性化を目的としたWebアプリです。GPS位置情報を利用して、観光スポットに近づくとスタンプが押せる機能を実装。スタンプの絵柄はStable Diffusionを使って、その場所の特徴に合わせた画像をAI生成しました。",
+      "keyFeatures": {
+        "f1": "Google Maps APIによる地図表示",
+        "f2": "Geolocation APIを用いた位置判定",
+        "f3": "AI画像生成によるオリジナルスタンプ"
+      },
+      "process": {
+        "challenge": "GPS精度のばらつきにより、スポットに到着してもスタンプが押せないというUX上の問題が発生しました。",
+        "solution": "判定ロジックを改善し、円形の判定エリアに加えてバッファを持たせるとともに、ユーザーが手動で位置情報を更新できる機能を追加。また、判定中であることを視覚的にフィードバックするUIを実装しました。",
+        "outcome": "フィールドテストにおいて、ユーザーがストレスなくスタンプラリーを楽しめるようになり、完走率が向上しました。"
+      }
+    }
+  },
+  "Contact": {
+    "title": "Get in Touch",
+    "subtitle": "新しいプロジェクトのご相談、技術的な質問、\nあるいは単なる挨拶でも。お気軽にご連絡ください。",
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": {
+      "q1": "お仕事の依頼は可能ですか？",
+      "a1": "はい、可能です。Webアプリケーション開発、HP制作、技術顧問など、幅広く承っております。まずはお気軽にご相談ください。",
+      "q2": "得意な技術領域は何ですか？",
+      "a2": "React, Next.js を用いたモダンなフロントエンド開発と、Python (FastAPI) を用いたAI機能の統合が得意です。3D表現 (Three.js) にも対応可能です。",
+      "q3": "開発期間や費用の目安は？",
+      "a3": "プロジェクトの規模や要件により異なります。ヒアリングを行った上で、最適なプランをご提案させていただきます。"
+    }
+  },
+  "AIChat": {
+    "title": "Haru-AI",
+    "subtitle": "Powered by Dify RAG & Gemini 2.5 flash",
+    "welcomeTitle": "何でも聞いてください",
+    "welcomeSubtitle": "以下のような質問から始めることができます",
+    "inputPlaceholder": "メッセージを入力...",
+    "fullStackDeveloper": "Full Stack\nWeb Developer",
+    "intro": "こんにちは。私は藤本悠杜です。\n最新のウェブ技術、AIアーキテクチャ、そして直感的なUIデザインの融合を探求しています。",
+    "description": "Haru-AIはポートフォリオ専用のAIアシスタントです。技術的な質問から個人的な経歴までお答えします。",
+    "suggested": {
+      "q1": "このウェブサイトがどのように作られたか気になりますか?",
+      "q2": "私のプロフィールやキャリアに興味がありますか?",
+      "q3": "私とつながりたいですか?",
+      "q4": "次に何をすればいいか迷っていますか?"
+    },
+    "error": "申し訳ございません。エラーが発生しました。",
+    "errorAnswer": "申し訳ございません。回答を生成できませんでした。"
+  }
+}

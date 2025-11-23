@@ -1,5 +1,7 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { MessageSquare, Send, X, RefreshCw, User, Bot, GripHorizontal } from 'lucide-react'
+import { useAIChat } from '@/contexts/AIChatContext'
 
 interface Message {
     id: string
@@ -9,11 +11,11 @@ interface Message {
 }
 
 export default function AIChat() {
-    const [isOpen, setIsOpen] = useState(false)
+    const { isOpen, viewMode, toggleChat, closeChat } = useAIChat()
     const [messages, setMessages] = useState<Message[]>([
         {
             id: '1',
-            content: 'こんにちは！藤本悠杜について質問があれば、お気軽に聞いてください。例えば、経歴、スキル、プロジェクトについて詳しく知りたいことがあれば教えてください！',
+            content: 'こんにちは！藤本悠杜（ふじもと はると）について、経歴やスキル、プロジェクトなど、何でも聞いてください。',
             role: 'assistant',
             timestamp: new Date()
         }
@@ -23,6 +25,12 @@ export default function AIChat() {
     const messagesEndRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
 
+    // ポップアップのサイズ状態
+    const [popupSize, setPopupSize] = useState({ width: 384, height: 500 }) // w-96 = 384px
+    const isResizingRef = useRef(false)
+    const lastMousePosRef = useRef({ x: 0, y: 0 })
+    const startSizeRef = useRef({ width: 0, height: 0 })
+
     // メッセージが追加されたときに自動スクロール
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -31,9 +39,49 @@ export default function AIChat() {
     // チャットが開いたときにフォーカス
     useEffect(() => {
         if (isOpen && inputRef.current) {
-            inputRef.current.focus()
+            setTimeout(() => {
+                inputRef.current?.focus()
+            }, 300)
         }
     }, [isOpen])
+
+    // リサイズ処理
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isResizingRef.current) return
+
+            const deltaX = lastMousePosRef.current.x - e.clientX
+            const deltaY = lastMousePosRef.current.y - e.clientY
+
+            setPopupSize({
+                width: Math.max(300, Math.min(800, startSizeRef.current.width + deltaX)),
+                height: Math.max(400, Math.min(800, startSizeRef.current.height + deltaY))
+            })
+        }
+
+        const handleMouseUp = () => {
+            isResizingRef.current = false
+            document.body.style.cursor = 'default'
+            document.body.style.userSelect = 'auto'
+        }
+
+        document.addEventListener('mousemove', handleMouseMove)
+        document.addEventListener('mouseup', handleMouseUp)
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove)
+            document.removeEventListener('mouseup', handleMouseUp)
+        }
+    }, [])
+
+    const handleResizeStart = (e: React.MouseEvent) => {
+        e.preventDefault()
+        isResizingRef.current = true
+        lastMousePosRef.current = { x: e.clientX, y: e.clientY }
+        startSizeRef.current = { width: popupSize.width, height: popupSize.height }
+        document.body.style.cursor = 'nwse-resize'
+        document.body.style.userSelect = 'none'
+    }
 
     const sendMessage = async () => {
         if (!inputMessage.trim() || isLoading) return
@@ -50,15 +98,9 @@ export default function AIChat() {
         setIsLoading(true)
 
         try {
-            console.log('API呼び出し開始:', userMessage.content)
-
-            // フルURLを使用してAPIを呼び出し
             const baseUrl = window.location.origin
             const apiUrl = `${baseUrl}/api/chat`
 
-            console.log('API URL:', apiUrl)
-
-            // Dify APIの呼び出し
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
@@ -66,27 +108,17 @@ export default function AIChat() {
                 },
                 body: JSON.stringify({
                     message: userMessage.content,
-                    conversation_id: null // 新規会話
+                    conversation_id: null
                 }),
-                // タイムアウトを設定
-                signal: AbortSignal.timeout(30000) // 30秒でタイムアウト
+                signal: AbortSignal.timeout(30000)
             })
 
-            console.log('API レスポンス status:', response.status)
-
             if (!response.ok) {
-                let errorData
-                try {
-                    errorData = await response.json()
-                } catch {
-                    errorData = { error: `HTTP ${response.status}: ${response.statusText}` }
-                }
-                console.error('API呼び出しエラー:', errorData)
-                throw new Error(errorData.error || `API呼び出しに失敗しました: ${response.status}`)
+                const errorData = await response.json().catch(() => ({}))
+                throw new Error(errorData.error || `HTTP ${response.status}`)
             }
 
             const data = await response.json()
-            console.log('API レスポンス data:', data)
 
             const assistantMessage: Message = {
                 id: (Date.now() + 1).toString(),
@@ -98,22 +130,9 @@ export default function AIChat() {
             setMessages(prev => [...prev, assistantMessage])
         } catch (error) {
             console.error('チャットエラー:', error)
-
-            let errorMessage = '申し訳ございません。エラーが発生しました。'
-
-            if (error instanceof Error) {
-                if (error.name === 'TimeoutError') {
-                    errorMessage = 'タイムアウトしました。しばらくしてから再度お試しください。'
-                } else if (error.message.includes('Failed to fetch')) {
-                    errorMessage = 'サーバーに接続できません。開発サーバーが起動しているか確認してください。'
-                } else {
-                    errorMessage = `エラー: ${error.message}`
-                }
-            }
-
             const errorMsg: Message = {
                 id: (Date.now() + 1).toString(),
-                content: errorMessage,
+                content: '申し訳ございません。エラーが発生しました。しばらくしてから再度お試しください。',
                 role: 'assistant',
                 timestamp: new Date()
             }
@@ -134,7 +153,7 @@ export default function AIChat() {
         setMessages([
             {
                 id: '1',
-                content: 'こんにちは！藤本悠杜について質問があれば、お気軽に聞いてください。例えば、経歴、スキル、プロジェクトについて詳しく知りたいことがあれば教えてください！',
+                content: 'こんにちは！藤本悠杜（ふじもと はると）について、経歴やスキル、プロジェクトなど、何でも聞いてください。',
                 role: 'assistant',
                 timestamp: new Date()
             }
@@ -144,138 +163,183 @@ export default function AIChat() {
     const suggestedQuestions = [
         "経歴について教えて",
         "どのようなスキルを持っていますか？",
-        "プロジェクトについて詳しく聞きたい",
-        "大学での活動について教えて",
-        "将来の目標について"
+        "制作したプロジェクトは？",
     ]
 
     return (
         <>
-            {/* チャットボットボタン */}
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 ${isOpen ? 'rotate-45' : ''
-                    }`}
-                aria-label="AIチャットを開く"
+            {/* フローティングボタン (ドロワーモードで開いているときは非表示) */}
+            {!(isOpen && viewMode === 'drawer') && (
+                <button
+                    onClick={() => toggleChat('popup')}
+                    className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center ${isOpen && viewMode === 'popup' ? 'rotate-90' : ''}`}
+                    aria-label="AIチャットを開く"
+                >
+                    {isOpen && viewMode === 'popup' ? <X size={24} /> : <MessageSquare size={24} />}
+                </button>
+            )}
+
+            {/* ドロワーモード時のオーバーレイ */}
+            {isOpen && viewMode === 'drawer' && (
+                <div
+                    className="fixed inset-0 bg-background/50 backdrop-blur-sm z-40 transition-opacity duration-300"
+                    onClick={closeChat}
+                />
+            )}
+
+            {/* チャットコンテナ */}
+            <div 
+                className={`fixed z-40 bg-card border border-border shadow-2xl flex flex-col transition-all duration-300 ease-out origin-bottom-right ${
+                    viewMode === 'drawer'
+                        ? `top-0 right-0 h-full w-[400px] max-w-full border-l ${isOpen ? 'translate-x-0' : 'translate-x-full'}`
+                        : `bottom-24 right-6 rounded-2xl ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`
+                }`}
+                style={viewMode === 'popup' ? { 
+                    width: popupSize.width, 
+                    height: popupSize.height,
+                    transitionProperty: isResizingRef.current ? 'none' : 'all' // リサイズ中はトランジションを無効化
+                } : {}}
             >
-                <svg className="w-6 h-6 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    {isOpen ? (
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    ) : (
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    )}
-                </svg>
-            </button>
-
-            {/* チャットウィンドウ */}
-            {isOpen && (
-                <div className="fixed bottom-24 right-6 z-40 w-80 h-96 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-white/20 flex flex-col">
-                    {/* ヘッダー */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-t-xl">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                                    <span className="text-sm font-bold">AI</span>
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold">藤本悠杜 AI</h3>
-                                    <p className="text-xs opacity-90">オンライン</p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={clearChat}
-                                className="text-white/80 hover:text-white transition-colors"
-                                title="会話をリセット"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                            </button>
-                        </div>
+                {/* リサイズハンドル (Popupモードのみ) */}
+                {viewMode === 'popup' && (
+                    <div 
+                        className="absolute top-0 left-0 w-6 h-6 -translate-x-1/2 -translate-y-1/2 cursor-nwse-resize flex items-center justify-center z-50 opacity-0 hover:opacity-100 transition-opacity group"
+                        onMouseDown={handleResizeStart}
+                    >
+                        <div className="w-4 h-4 bg-primary rounded-full shadow-md border-2 border-background" />
                     </div>
+                )}
 
-                    {/* メッセージエリア */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                        {messages.map((message) => (
-                            <div
-                                key={message.id}
-                                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                {/* ヘッダー */}
+                <div 
+                    className={`bg-primary text-primary-foreground p-4 flex items-center justify-between shrink-0 ${viewMode === 'popup' ? 'rounded-t-2xl cursor-move' : ''} select-none`}
+                    // 将来的にドラッグ移動も実装できるように cursor-move を付与しておく（今回はリサイズのみ）
+                >
+                    <div className="flex items-center space-x-3">
+                        {/* リサイズヒントアイコン（左上） */}
+                        {viewMode === 'popup' && (
+                            <div 
+                                className="absolute top-2 left-2 text-primary-foreground/20 hover:text-primary-foreground/50 cursor-nwse-resize transition-colors"
+                                onMouseDown={handleResizeStart}
+                                title="ドラッグしてリサイズ"
                             >
-                                <div
-                                    className={`max-w-[80%] p-3 rounded-lg ${message.role === 'user'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-800'
-                                        }`}
-                                >
-                                    <p className="text-sm leading-relaxed">{message.content}</p>
-                                    <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
-                                        }`}>
-                                        {message.timestamp.toLocaleTimeString('ja-JP', {
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        })}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-
-                        {isLoading && (
-                            <div className="flex justify-start">
-                                <div className="bg-gray-100 text-gray-800 p-3 rounded-lg">
-                                    <div className="flex space-x-1">
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                                    </div>
-                                </div>
+                                <GripHorizontal size={16} className="rotate-45" />
                             </div>
                         )}
 
-                        <div ref={messagesEndRef} />
+                        <div className={`p-2 bg-primary-foreground/10 rounded-full ${viewMode === 'popup' ? 'ml-4' : ''}`}>
+                            <Bot size={20} />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-sm tracking-wide">AI Assistant</h3>
+                            <p className="text-[10px] opacity-80 uppercase tracking-wider">Powered by Dify</p>
+                        </div>
                     </div>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={clearChat}
+                            className="p-2 hover:bg-primary-foreground/10 rounded-full transition-colors"
+                            title="会話をリセット"
+                        >
+                            <RefreshCw size={16} />
+                        </button>
+                        {viewMode === 'drawer' && (
+                            <button
+                                onClick={closeChat}
+                                className="p-2 hover:bg-primary-foreground/10 rounded-full transition-colors"
+                                title="閉じる"
+                            >
+                                <X size={24} />
+                            </button>
+                        )}
+                    </div>
+                </div>
 
-                    {/* 提案された質問 */}
-                    {messages.length === 1 && (
-                        <div className="px-4 pb-2">
-                            <p className="text-xs text-gray-500 mb-2">提案された質問:</p>
-                            <div className="space-y-1">
-                                {suggestedQuestions.slice(0, 3).map((question, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setInputMessage(question)}
-                                        className="block w-full text-left text-xs text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded transition-colors"
-                                    >
-                                        {question}
-                                    </button>
-                                ))}
+                {/* メッセージエリア */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-muted/30">
+                    {messages.map((message) => (
+                        <div
+                            key={message.id}
+                            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
+                            <div className={`flex items-end gap-2 max-w-[85%] ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.role === 'user'
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-muted text-muted-foreground'
+                                    }`}>
+                                    {message.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                                </div>
+                                <div
+                                    className={`p-3 rounded-2xl text-sm leading-relaxed ${message.role === 'user'
+                                        ? 'bg-primary text-primary-foreground rounded-br-none'
+                                        : 'bg-card border border-border text-card-foreground rounded-bl-none shadow-sm'
+                                        }`}
+                                >
+                                    {message.content}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    {isLoading && (
+                        <div className="flex justify-start">
+                            <div className="flex items-end gap-2">
+                                <div className="w-8 h-8 bg-muted text-muted-foreground rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Bot size={16} />
+                                </div>
+                                <div className="bg-card border border-border p-4 rounded-2xl rounded-bl-none shadow-sm">
+                                    <div className="flex space-x-1">
+                                        <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce"></div>
+                                        <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                                        <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
+                    <div ref={messagesEndRef} />
+                </div>
 
-                    {/* 入力エリア */}
-                    <div className="p-4 border-t border-gray-200">
-                        <div className="flex space-x-2">
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                value={inputMessage}
-                                onChange={(e) => setInputMessage(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                placeholder="メッセージを入力..."
-                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                                disabled={isLoading}
-                            />
-                            <button
-                                onClick={sendMessage}
-                                disabled={!inputMessage.trim() || isLoading}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
-                            >
-                                送信
-                            </button>
+                {/* 提案された質問 */}
+                {messages.length === 1 && (
+                    <div className="px-4 pb-4 bg-muted/30">
+                        <p className="text-xs text-muted-foreground mb-2 px-1 font-medium">おすすめの質問</p>
+                        <div className="flex flex-wrap gap-2">
+                            {suggestedQuestions.map((question, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setInputMessage(question)}
+                                    className="text-xs bg-card hover:bg-accent text-card-foreground border border-border px-3 py-1.5 rounded-full transition-colors shadow-sm"
+                                >
+                                    {question}
+                                </button>
+                            ))}
                         </div>
                     </div>
+                )}
+
+                {/* 入力エリア */}
+                <div className={`p-4 bg-card border-t border-border shrink-0 ${viewMode === 'popup' ? 'rounded-b-2xl' : ''}`}>
+                    <div className="flex items-center gap-2">
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            placeholder="メッセージを入力..."
+                            className="flex-1 px-4 py-2.5 bg-muted/50 border-transparent focus:bg-card focus:border-primary/50 focus:ring-2 focus:ring-primary/10 rounded-xl text-sm transition-all outline-none placeholder:text-muted-foreground"
+                            disabled={isLoading}
+                        />
+                        <button
+                            onClick={sendMessage}
+                            disabled={!inputMessage.trim() || isLoading}
+                            className="p-2.5 bg-primary text-primary-foreground rounded-xl hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                        >
+                            <Send size={18} />
+                        </button>
+                    </div>
                 </div>
-            )}
+            </div>
         </>
     )
 }

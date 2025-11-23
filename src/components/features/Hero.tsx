@@ -1,178 +1,102 @@
 'use client'
-import { useState, useEffect, useRef, useCallback } from 'react'
+
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export default function Hero() {
-    const [currentTextIndex, setCurrentTextIndex] = useState(0)
-    const [displayedText, setDisplayedText] = useState("")
-    const [showCursor, setShowCursor] = useState(true)
-    const [underlineWidth, setUnderlineWidth] = useState(100)
-    const [isDeleting, setIsDeleting] = useState(false)
-    const [deleteIndex, setDeleteIndex] = useState(-1)  // 0 → -1 に変更
-    const deleteIntervalRef = useRef<NodeJS.Timeout | null>(null)
+    const t = useTranslations('Hero');
+    const containerRef = useRef<HTMLElement>(null)
+    const titleRef = useRef<HTMLHeadingElement>(null)
+    const subTitleRef = useRef<HTMLParagraphElement>(null)
+    const labelRef = useRef<HTMLDivElement>(null)
+    const ctaRef = useRef<HTMLDivElement>(null)
 
-    const textVariations = useCallback(() => [
-        "フルスタック開発",
-        "チーム開発",
-        "ユーザー体験",
-        "問題解決",
-        "新しい技術",
-        "プロダクト開発"
-    ], [])
-
-    //タイピングアニメーション
     useEffect(() => {
-        const texts = textVariations()
-        const currentText = texts[currentTextIndex]
-        let index = 0
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
 
-        setDisplayedText("")
-        setUnderlineWidth(0) // 下線を0からスタート
-        setIsDeleting(false) // 新しいタイピング開始時は削除状態を解除
-        setDeleteIndex(-1) // deleteIndexもリセット
+        // Initial Animation
+        tl.fromTo(labelRef.current,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1 }
+        )
+            .fromTo(titleRef.current,
+                { y: 60, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1.2 },
+                "-=0.8"
+            )
+            .fromTo(subTitleRef.current,
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1 },
+                "-=0.8"
+            )
+            .fromTo(ctaRef.current,
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1 },
+                "-=0.6"
+            )
 
-        const typeInterval = setInterval(() => {
-            if (index < currentText.length) {
-                setDisplayedText(currentText.slice(0, index + 1))
-                // タイピング中も下線の幅を更新
-                setUnderlineWidth(((index + 1) / currentText.length) * 100)
-                index++
-            } else {
-                clearInterval(typeInterval)
-                // 最後の文字が表示された瞬間に削除開始（待機なし）
-                setTimeout(() => {
-                    setIsDeleting(true)
-                }, 0)
-            }
-        }, 100)  // 150ms → 100ms（速く）
-        return () => clearInterval(typeInterval)
-    }, [currentTextIndex, textVariations])
-
-    //削除アニメーション（下線→文字の順）
-    useEffect(() => {
-        if (isDeleting) {
-            const texts = textVariations()
-            const currentText = texts[currentTextIndex]
-            const textDeleteSpeed = 100  // 文字削除速度（150ms → 100ms）
-            const underlineDeleteSpeed = 200  // 下線削除速度（少し遅く）
-
-            // ステップ1: 下線を一定速度で削除（CSSのtransitionを利用）
-            setUnderlineWidth(0)  // CSSのtransitionで滑らかに0%へ
-
-            // 下線削除の時間（currentText.length * 200ms）の直後に文字削除開始
-            const underlineDuration = currentText.length * underlineDeleteSpeed
-            const textDeleteTimer = setTimeout(() => {
-                let charIndex = currentText.length
-
-                deleteIntervalRef.current = setInterval(() => {
-                    charIndex--
-                    if (charIndex >= 0) {
-                        setDisplayedText(currentText.slice(0, charIndex))
-                        setDeleteIndex(charIndex)
-                    }
-
-                    if (charIndex <= 0) {
-                        if (deleteIntervalRef.current) {
-                            clearInterval(deleteIntervalRef.current)
-                        }
-                        setDeleteIndex(0)
-                    }
-                }, textDeleteSpeed) // 文字削除速度（100ms）
-            }, underlineDuration) // 下線削除完了の瞬間
-
-            return () => {
-                clearTimeout(textDeleteTimer)
-                if (deleteIntervalRef.current) {
-                    clearInterval(deleteIntervalRef.current)
-                }
-            }
+        return () => {
+            tl.kill()
         }
-    }, [isDeleting, currentTextIndex, textVariations])
-
-    //削除完了後の処理
-    useEffect(() => {
-        if (deleteIndex === 0 && isDeleting) {
-            if (deleteIntervalRef.current) {
-                clearInterval(deleteIntervalRef.current)
-                deleteIntervalRef.current = null
-            }
-            // 文字削除完了後、少し待ってから次のテキストへ
-            setTimeout(() => {
-                const texts = textVariations()
-                setIsDeleting(false)
-                // setIsDeleting(false)の後に状態が更新されるまで少し待つ
-                setTimeout(() => {
-                    setCurrentTextIndex((prev) => (prev + 1) % texts.length)
-                }, 50)
-            }, 500)
-        }
-    }, [deleteIndex, isDeleting, textVariations])
-
-    //カーソルの点滅
-    useEffect(() => {
-        const cursorInterval = setInterval(() => {
-            setShowCursor((prev) => !prev)
-        }, 500)
-
-        return () => clearInterval(cursorInterval)
     }, [])
 
-
-
     return (
-        <section id="home" className="min-h-screen flex items-center">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center">
-                    {/* メインタイトル */}
-                    <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-                        藤本 悠杜
-                        <span className="text-blue-600 block mt-2">
-                            <span className="relative inline-block leading-tight">
-                                {displayedText}
-                                <span
-                                    className={`inline-block w-1 bg-blue-600 ml-1 transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`}
-                                    style={{ height: '1em' }}
-                                >
-                                </span>
-                                <span className="absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all"
-                                    style={{
-                                        width: `${underlineWidth}%`,
-                                        transitionDuration: isDeleting
-                                            ? `${displayedText.length * 200}ms`  // 文字数 × 200ms（遅く）
-                                            : '100ms'  // タイピング中は100ms（速く）
-                                    }}>
-                                </span>
-                            </span>
-                            が好きなエンジニア
+        <section
+            ref={containerRef}
+            className="relative min-h-screen flex items-center justify-center overflow-hidden transition-colors duration-500"
+        >
+            {/* Abstract Background Elements for 'Gallery' feel - Reduced opacity for 3D visibility */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none z-0">
+                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-gradient-to-b from-gray-200 to-transparent dark:from-gray-800 blur-3xl" />
+                <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-gradient-to-t from-gray-200 to-transparent dark:from-gray-900 blur-3xl" />
+            </div>
+
+            <div className="container-custom relative z-10 max-w-5xl mx-auto px-6 md:px-12">
+                <div className="flex flex-col items-start justify-center min-h-[60vh]">
+
+                    {/* Label */}
+                    <div ref={labelRef} className="mb-8 pl-1">
+                        <span className="text-xs font-bold tracking-[0.3em] uppercase text-muted-foreground border-l-2 border-primary pl-3">
+                            {t('label')}
                         </span>
+                    </div>
+
+                    {/* Main Title */}
+                    <h1 ref={titleRef} className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight text-foreground mb-8 leading-[0.9]">
+                        Haruto <br />
+                        <span className="text-muted-foreground">Fujimoto</span>
                     </h1>
 
-                    {/* サブタイトル */}
-                    <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
-                        チーム開発を通じて、ユーザー視点を重視したプロダクト開発を学んでいます。
-                        大学生活で培った技術力を、ビジネス価値の創造に活かしたいです。
-                    </p>
+                    {/* Description */}
+                    <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-12">
+                        <p ref={subTitleRef} className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed font-light whitespace-pre-line">
+                            {t('subtitle')}
+                        </p>
 
-                    {/* CTAボタン */}
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a
-                            href="/projects"
-                            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:scale-105 cursor-pointer"
-                        >
-                            プロジェクトを見る
-                        </a>
-                        <a
-                            href="/contact"
-                            className="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 hover:scale-105 cursor-pointer"
-                        >
-                            お問い合わせ
-                        </a>
-                    </div>
-                    {/* 追加要素 */}
-                    <div className="mt-12 text-sm text-white">
-                        <p>茨城大学工学部情報工学科 3年生</p>
+                        {/* CTA */}
+                        <div ref={ctaRef} className="flex gap-6">
+                            <Link
+                                href="/projects"
+                                className="group relative inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-primary-foreground bg-primary rounded-full overflow-hidden transition-all hover:scale-105"
+                            >
+                                <span className="relative z-10">{t('viewProjects')}</span>
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="group inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-foreground border border-border rounded-full hover:bg-accent transition-all hover:scale-105"
+                            >
+                                {t('contact')}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            {/* Decoration Line */}
+            <div className="absolute bottom-0 left-0 w-full h-px bg-border/50" />
+            <div className="absolute top-0 right-0 w-px h-full bg-border/50 hidden md:block" />
         </section>
     )
 }

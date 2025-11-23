@@ -1,0 +1,250 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact",
+    "aiChat": "AI Chat"
+  },
+  "Hero": {
+    "label": "Portfolio 2025",
+    "title": "Haruto Fujimoto",
+    "subtitle": "Ibaraki University, Dept. of Information Engineering.\nExploring the boundaries between AI and Design,\nbuilding digital experiences that are both functional and emotional.",
+    "viewProjects": "View Projects",
+    "contact": "Contact"
+  },
+  "FeaturedWorks": {
+    "title": "Featured Works",
+    "description": "Selected works showcasing technical skills and design thinking.",
+    "viewAll": "View All Projects",
+    "details": "Details"
+  },
+  "AboutSummary": {
+    "title": "About Me",
+    "description": "Studying Information Engineering at Ibaraki University while developing practical web applications. \nWith the motto 'Moving hearts through technology', I challenge myself to create new experiences combining AI and modern web technologies.",
+    "readMore": "Read full story"
+  },
+  "SkillsSummary": {
+    "title": "Technical Skills",
+    "description": "Mastering the tech stack required for modern web development."
+  },
+  "ContactCTA": {
+    "title": "Interested in working together?",
+    "description": "Whether you have a project request, technical question, or just want to say hi, feel free to reach out. I'm looking forward to new challenges.",
+    "contactMe": "Contact Me",
+    "visitGitHub": "Visit GitHub"
+  },
+  "About": {
+    "title": "About Me",
+    "subtitle": "Engineering with passion, designing with purpose.\nMy background and the values I cherish.",
+    "name": "Haruto Fujimoto",
+    "role": "Full Stack Engineer Student",
+    "profile": "I am a university student majoring in Information Engineering at Ibaraki University, aspiring to be a Full Stack Engineer. I dove into the world of programming upon entering university in 2023. Initially starting with a simple interest in 'making things work', through hackathons, internships, and personal projects, I awakened to the joy of 'solving someone's problems with technology' and 'providing new value experiences'. Currently, I am focusing on application development using Generative AI and modern frontend development using React/Next.js. In my university lab, I am also exploring 'AI x SE (Software Engineering)' to search for higher quality and more efficient system development methods.",
+    "valuesTitle": "My Values",
+    "journeyTitle": "Journey",
+    "ctaTitle": "Let's build something amazing together",
+    "ctaDescription": "Interested in my experience and skills?\nFeel free to contact me for work requests or technical discussions.",
+    "ctaButton": "Get in Touch",
+    "timeline": {
+      "t1": {
+        "year": "2023.04",
+        "title": "Entered Ibaraki University, Dept. of Information Engineering",
+        "description": "Started learning programming basics while joining the trampoline club. Cultivated perseverance and physical strength through balancing academics and club activities."
+      },
+      "t2": {
+        "year": "2025.07",
+        "title": "Released first major personal app 'Invest in Me!'",
+        "description": "Developed a Web app visualizing ROI of educational investment using Next.js and AI API. Learned the overall picture of Web development by handling everything from planning to implementation and deployment."
+      },
+      "t3": {
+        "year": "2025.09",
+        "title": "Sky Co., Ltd. Summer Internship (2 weeks)",
+        "description": "Experienced code review in team development and practical quality control. Learned the importance of UI/UX design from a user's perspective."
+      },
+      "t4": {
+        "year": "2025.11",
+        "title": "Hackathon Participation & App Development",
+        "description": "Developed an 'Automatic Schedule Extraction App from Emails' in a team. Demonstrated short-term problem-solving skills and practical skills in incorporating Generative AI into products."
+      },
+      "t5": {
+        "year": "2025.11 - Present",
+        "title": "Joined Ueda Laboratory (Software Engineering)",
+        "description": "Interested in 'AI x SE' and 'Simulation Technology', started research on software development and information management. Redefining own development experience from an engineering perspective and exploring high-quality system construction."
+      }
+    },
+    "values": {
+      "v1": {
+        "title": "User Centric",
+        "subtitle": "Empathy for Users",
+        "description": "'Does it move the user's heart?' Technology is just a means, the goal is to solve user problems and improve experiences. I value emotional value that makes users feel 'comfortable' or 'interesting' the moment they touch it, not just logical function implementation."
+      },
+      "v2": {
+        "title": "Borderless Curiosity",
+        "subtitle": "No Boundaries",
+        "description": "'Don't limit the domain' Web frontend, backend, AI, and 3D expression. I greedily absorb new technologies according to what I want to make without staying in a specific technical area, and create new value by combining them."
+      },
+      "v3": {
+        "title": "Professional Ownership",
+        "subtitle": "Responsibility for Details",
+        "description": "'Stick to the last 1px' From personal development to team development and internships, I ask myself 'Is this quality I can be proud of as a professional?' instead of 'It's fine if it works'. I believe that attention to detail, from code readability to UI behavior, determines the overall quality."
+      }
+    }
+  },
+  "Skills": {
+    "title": "Technical Skills",
+    "subtitle": "A toolbox to realize objectives.\nI strive to select modern tech stacks and write scalable, maintainable code.",
+    "learningNowTitle": "Learning Now",
+    "learningNowDescription": "Not satisfied with the status quo, I continue to expand my technical breadth. I am particularly interested in 'Practical Application of AI' and 'High-Performance System Design'.",
+    "currentFocus": "Current Focus",
+    "relatedProjects": "Used in {count} projects",
+    "categories": {
+      "Languages": "Languages",
+      "Frontend": "Frontend",
+      "BackendTools": "Backend & Tools"
+    },
+    "items": {
+      "TypeScript": "Robust application development utilizing type safety. Mastering Generics and Utility Types.",
+      "JavaScript": "Deep understanding of asynchronous processing, DOM manipulation, and modern syntax.",
+      "Python": "Data analysis, scraping, AI model implementation. Backend development using FastAPI.",
+      "Java": "Basics of Object-Oriented Design. Used in university lectures and Android app development.",
+      "Rust": "Learning with interest in memory safety and performance. Created simple CLI tools.",
+      "React": "Component design using Hooks, Context API, Custom Hooks.",
+      "Nextjs": "Differentiation of App Router, Server Actions, SSR/SSG. Performance optimization.",
+      "TailwindCSS": "Utility-first styling. Responsive design, dark mode support.",
+      "Threejs": "Immersive UI implementation with 3D expression. Learning basics of shaders.",
+      "Nodejs": "API server construction using Express.js. Understanding of asynchronous processing.",
+      "FastAPI": "High-speed API development utilizing type hints. Integration with Python ecosystem.",
+      "GitGitHub": "Branch strategy (Git Flow), Pull Requests, Code Review in team development.",
+      "Docker": "Containerization of development environment. Creation of Dockerfile, docker-compose.",
+      "Firebase": "Serverless development using Authentication, Firestore, Storage."
+    },
+    "learning": {
+      "AIAgents": "Building AI agents that autonomously perform tasks. Researching mechanisms of LangChain and AutoGPT.",
+      "RustWeb": "Ultra-fast and safe Web backend development using Axum and Actix-web.",
+      "SystemDesign": "Architecture design of large-scale systems. Learning microservices and distributed systems."
+    }
+  },
+  "Projects": {
+    "title": "Selected Works",
+    "subtitle": "From personal exploration to team problem solving.\nHere are some projects I've built using technology.",
+    "viewDetails": "View Details",
+    "viewGitHub": "View more on GitHub",
+    "modal": {
+      "overview": "Overview",
+      "behindTheScenes": "Behind the Scenes",
+      "summary": "Summary",
+      "keyFeatures": "Key Features",
+      "techStack": "Tech Stack",
+      "challenge": "Challenge",
+      "solution": "Solution",
+      "outcome": "Outcome",
+      "viewSource": "View Source",
+      "liveDemo": "Live Demo"
+    }
+  },
+  "ProjectsData": {
+    "PortfolioSite": {
+      "description": "A portfolio site with a 'Growth and Connection' concept. Features a RAG chatbot (Haru-AI) built with Dify for interactive experiences.",
+      "fullDescription": "A portfolio site optimized for SEO and performance using Next.js 14 App Router. Designed with a 'Museum/Gallery' theme, aiming for a minimal and sophisticated UI that highlights the works. Integrated with an AI chatbot trained on my personal data to provide interactive information.",
+      "keyFeatures": {
+        "f1": "AI Chatbot (RAG) Integration",
+        "f2": "Light/Dark Mode Theme System",
+        "f3": "Responsive Modern UI",
+        "f4": "Smooth Animations with GSAP"
+      },
+      "process": {
+        "challenge": "Static portfolio sites often fail to answer specific visitor questions immediately, leading to lost opportunities.",
+        "solution": "Implemented a RAG chatbot using Dify. Turned my resume and project info into a knowledge base to generate accurate, context-aware answers.",
+        "outcome": "Increased visitor engagement time and improved accuracy in answering technical questions, allowing for deeper self-promotion."
+      }
+    },
+    "InvestInMe": {
+      "description": "Portfolio management app for individual investors. Visualizes asset trends with intuitive UI to support investment decisions.",
+      "fullDescription": "A web application for individual investors with multiple brokerage accounts to manage assets centrally. Features real-time graph visualization of daily asset trends and portfolio balance analysis.",
+      "keyFeatures": {
+        "f1": "Real-time Asset Trend Graph",
+        "f2": "Intuitive Drag & Drop Operation",
+        "f3": "CSV Import/Export Function"
+      },
+      "process": {
+        "challenge": "Performance degradation due to re-rendering when processing large amounts of transaction data on the client side.",
+        "solution": "Implemented memoization with React.memo and offloaded calculations to Web Workers. Optimized Recharts settings for smooth rendering.",
+        "outcome": "Achieved smooth operation at 60fps even with graphs containing thousands of data points, significantly improving UX."
+      }
+    },
+    "MailDeCalen": {
+      "description": "AI schedule management assistant linking Gmail and Google Calendar. Gemini AI analyzes emails and automatically registers events.",
+      "fullDescription": "A hackathon product aiming to 'eliminate the hassle of scheduling via email'. AI analyzes received emails, extracts date, time, place, and participants, and tentatively registers them to Google Calendar.",
+      "keyFeatures": {
+        "f1": "High-precision Entity Extraction with Gemini Pro",
+        "f2": "Secure Integration with Gmail/Calendar API",
+        "f3": "Real-time Notification System"
+      },
+      "process": {
+        "challenge": "Extracting accurate date and time from unstructured email text was difficult with traditional regex approaches.",
+        "solution": "Utilized Gemini Pro API with Few-shot prompting to improve accuracy. Outputted results as structured data (JSON) for stable processing.",
+        "outcome": "Successfully extracted schedule information with over 90% accuracy even from complex emails, leading to a hackathon award."
+      }
+    },
+    "Nazomi": {
+      "description": "Anonymous diary matching service. Uses NLP for sentiment analysis to match users with high empathy.",
+      "fullDescription": "A mental health care app to relieve loneliness in modern society. Users write anonymous diaries, AI analyzes emotions, and matches users with similar feelings for temporary chat.",
+      "keyFeatures": {
+        "f1": "Japanese Sentiment Analysis using spaCy",
+        "f2": "Real-time Chat via WebSocket",
+        "f3": "Guaranteed Complete Anonymity"
+      },
+      "process": {
+        "challenge": "Minimizing server load and message latency in real-time chat implementation.",
+        "solution": "Built an asynchronous chat server using FastAPI and WebSocket. Introduced Redis as a Pub/Sub messaging layer for scalability.",
+        "outcome": "Achieved low-latency messaging even with 100 concurrent connections, providing a smooth communication environment."
+      }
+    },
+    "StampRallyMap": {
+      "description": "Stamp rally app for promoting local tourism. Uses Google Maps API to award stamps when reaching specific spots.",
+      "fullDescription": "A web app developed as a university team project for regional revitalization. Users get stamps when approaching spots using GPS. Stamps are original AI-generated images using Stable Diffusion.",
+      "keyFeatures": {
+        "f1": "Map Display with Google Maps API",
+        "f2": "Location Detection with Geolocation API",
+        "f3": "Original AI-generated Stamps"
+      },
+      "process": {
+        "challenge": "UX issues where stamps couldn't be obtained even at the spot due to GPS accuracy variations.",
+        "solution": "Improved detection logic by adding buffers to circular areas and allowing manual location updates. Added visual feedback UI during detection.",
+        "outcome": "Users could enjoy the stamp rally without stress in field tests, improving the completion rate."
+      }
+    }
+  },
+  "Contact": {
+    "title": "Get in Touch",
+    "subtitle": "Consultation for new projects, technical questions,\nor just a greeting. Feel free to contact me.",
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": {
+      "q1": "Is it possible to request work?",
+      "a1": "Yes, it is. I accept a wide range of requests such as Web application development, HP production, and technical advisory. Please feel free to consult first.",
+      "q2": "What is your area of expertise?",
+      "a2": "I specialize in modern frontend development using React, Next.js and integration of AI functions using Python (FastAPI). I can also handle 3D expression (Three.js).",
+      "q3": "What is the estimated development period and cost?",
+      "a3": "It depends on the scale and requirements of the project. I will propose the best plan after hearing your needs."
+    }
+  },
+  "AIChat": {
+    "title": "Haru-AI",
+    "subtitle": "Powered by Dify RAG & Gemini 2.5 flash",
+    "welcomeTitle": "Ask me anything",
+    "welcomeSubtitle": "You can start with questions like below",
+    "inputPlaceholder": "Type a message...",
+    "fullStackDeveloper": "Full Stack\nWeb Developer",
+    "intro": "Hello. I am Haruto Fujimoto.\nI explore the fusion of latest web technologies, AI architecture, and intuitive UI design.",
+    "description": "Haru-AI is an AI assistant dedicated to this portfolio. It answers everything from technical questions to personal background.",
+    "suggested": {
+      "q1": "How was this website made?",
+      "q2": "Interested in my profile or career?",
+      "q3": "Want to connect with me?",
+      "q4": "Not sure what to do next?"
+    },
+    "error": "Sorry, an error occurred.",
+    "errorAnswer": "Sorry, I could not generate an answer."
+  }
+}

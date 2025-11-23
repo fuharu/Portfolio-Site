@@ -1,280 +1,309 @@
 'use client'
-import { useScroll } from '@/hooks/useScroll'
+import { useState, useEffect, useRef } from 'react'
+import { Github, ExternalLink, X, ArrowRight as ArrowRightIcon, Layers, Lightbulb, CheckCircle2 } from 'lucide-react'
+import { gsap } from 'gsap'
+import { projects, Project } from '@/data/projects'
+import { useTranslations } from 'next-intl'
 
 export default function Projects() {
-    const { scrollY } = useScroll()
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+    const [activeTab, setActiveTab] = useState<'overview' | 'process'>('overview')
+    const modalRef = useRef<HTMLDivElement>(null)
+    const overlayRef = useRef<HTMLDivElement>(null)
+    const t = useTranslations('Projects')
+    const tData = useTranslations('ProjectsData')
 
-    const projects = [
-        {
-            title: "ポートフォリオサイト（当サイト）",
-            description: "私自身のスキル、経歴、制作物を紹介するために作成したWebサイトです。「成長と繋がり」をコンセプトにした背景デザインと、Difyで構築したRAGチャットボットをAPI経由で組み込み、訪問者が私について対話形式で知ることができるインタラクティブな体験を実現しました。",
-            technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Dify API"],
-            github: "https://github.com/fuharu/Portfolio-Site",
-            demo: "#home",
-            image: "🎨",
-            category: "個人開発",
-            highlights: ["RAGチャットボット", "モダンなデザイン", "アニメーション実装"]
-        },
-        {
-            title: "私に投資して！",
-            description: "投資関連のWebアプリケーションを個人開発で作成しました。ユーザーが投資に関する情報を効率的に管理・分析できるツールです。ユーザーインターフェースの使いやすさを重視し、直感的な操作ができるようデザインしました。",
-            technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js"],
-            github: "https://github.com/fuharu/invest-in-me",
-            demo: "#",
-            image: "💼",
-            category: "個人開発",
-            highlights: ["レスポンシブデザイン", "型安全性", "ユーザビリティ重視"]
-        },
-        {
-            title: "Mail de Calen",
-            description: "GmailとGoogleカレンダーを連携したAI搭載のスケジュール管理アプリです。Gemini AIがメール内容を解析して予定やタスクを自動抽出し、効率的なスケジュール管理を実現します。バックエンドAPI設計・実装、AI解析機能、Firebase連携をメイン担当しました。",
-            technologies: ["FastAPI", "Python", "Gemini API", "Next.js", "TypeScript", "Firebase"],
-            github: "https://github.com/fuharu/Mail-de-Calen",
-            demo: "#",
-            image: "📅",
-            category: "チーム開発（ハッカソン）",
-            highlights: ["AI解析機能", "リアルタイム処理", "セキュリティ実装"]
-        },
-        {
-            title: "なぞみ - 匿名日記マッチングサービス",
-            description: "完全匿名で日記を投稿し、AI（自然言語処理）が抽出した共感ワードをもとに、似た感情や経験を持つユーザー同士をマッチングするメンタルケアアプリです。自然言語処理エンジン、マッチングアルゴリズム、リアルタイムチャット機能、セキュリティ・暗号化機能を担当しました。",
-            technologies: ["FastAPI", "Python", "spaCy", "React", "TypeScript", "Supabase", "WebSocket"],
-            github: "https://github.com/sho-nagisa/nazomi",
-            demo: "#",
-            image: "💝",
-            category: "チーム開発（ハッカソン）",
-            highlights: ["自然言語処理", "暗号化機能", "リアルタイムチャット"]
-        },
-        {
-            title: "誠に遅れました",
-            description: "遅刻時の連絡文をAIで自動生成するWebアプリケーションです。パラメータ選択式UIで相手、原因、到着時間を選択し、Google Gemini APIを使って自然な日本語の遅刻連絡文を生成します。AI混雑時は504通りのプリコンパイル済みテンプレートを使用するフォールバック機能付きです。",
-            technologies: ["Django", "FastAPI", "Gemini API", "Vanilla JS", "CSS3", "Supabase"],
-            github: "https://github.com/1f10240115/excuse",
-            demo: "#",
-            image: "⏰",
-            category: "チーム開発（ハッカソン）",
-            highlights: ["AI生成システム", "フォールバック機能", "受賞：努力賞"]
-        },
-        {
-            title: "スタンプラリー地図アプリ",
-            description: "地域の観光地を巡ってスタンプを集めるWebアプリケーションです。Google MapsとAI画像生成技術を組み合わせた、観光促進・運動促進アプリです。フルスタック開発、AI画像生成システム設計、データベース設計、位置情報処理を担当しました。",
-            technologies: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Stable Diffusion XL", "Google Maps API"],
-            github: "https://github.com/fuharu/stamp-rally",
-            demo: "#",
-            image: "🗺️",
-            category: "チーム開発（大学講義）",
-            highlights: ["AI画像生成", "位置情報処理", "ハイブリッドDB構成"]
-        }
-    ]
+    const openModal = (project: Project) => {
+        setSelectedProject(project)
+        setActiveTab('overview') // Reset tab on open
+        document.body.style.overflow = 'hidden'
+    }
 
-    const experienceItems = [
-        {
-            title: "個人開発経験",
-            description: "ポートフォリオサイトや投資アプリなど、個人プロジェクトを通じて要件定義からデプロイまでの一連の開発フローを経験。ユーザー視点での設計を重視し、モダンな技術スタックを活用。",
-            icon: "💡"
-        },
-        {
-            title: "ハッカソン参加",
-            description: "技育CAMPハッカソンに複数回参加し、限られた時間内でのプロダクト開発を経験。AI技術とWeb開発を組み合わせたプロジェクトで努力賞を受賞。",
-            icon: "🏆"
-        },
-        {
-            title: "チーム開発",
-            description: "大学講義でのチーム開発やハッカソンを通じて、Git を使った協働開発、API設計、データベース設計などの実践的なスキルを習得。",
-            icon: "👥"
-        },
-        {
-            title: "AI技術活用",
-            description: "Gemini API、spaCy、Stable Diffusion XLなど、様々なAI技術を実践的に活用。プロンプトエンジニアリングや自然言語処理の経験を積む。",
-            icon: "🤖"
-        },
-        {
-            title: "フルスタック開発",
-            description: "React、Next.js、FastAPI、Djangoなど、フロントエンドからバックエンドまで幅広い技術を習得。データベース設計とAPI連携の実装経験も豊富。",
-            icon: "⚡"
-        },
-        {
-            title: "継続的学習",
-            description: "新しい技術への好奇心を大切にし、実践的なプロジェクトを通じて継続的にスキルアップを図っています。特にAI技術とWeb技術の融合に注力。",
-            icon: "📚"
+    const closeModal = () => {
+        if (modalRef.current && overlayRef.current) {
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    setSelectedProject(null)
+                    document.body.style.overflow = ''
+                }
+            })
+            tl.to(modalRef.current, { opacity: 0, scale: 0.95, duration: 0.2, ease: "power2.in" })
+              .to(overlayRef.current, { opacity: 0, duration: 0.2 }, "<")
+        } else {
+            setSelectedProject(null)
+            document.body.style.overflow = ''
         }
-    ]
+    }
+
+    useEffect(() => {
+        if (selectedProject && modalRef.current && overlayRef.current) {
+            const tl = gsap.timeline()
+            tl.fromTo(overlayRef.current, 
+                { opacity: 0 }, 
+                { opacity: 1, duration: 0.3 }
+            )
+            .fromTo(modalRef.current, 
+                { opacity: 0, scale: 0.95, y: 20 }, 
+                { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(1.2)" }, 
+                "-=0.2"
+            )
+        }
+    }, [selectedProject])
 
     return (
-        <section id="projects" className="py-20 relative overflow-hidden">
-            {/* 図形レイヤー */}
-            <div className="absolute inset-0 z-5">
-                {/* 大きな六角形 */}
-                <svg
-                    className="absolute top-20 left-1/4 w-36 h-36 text-purple-400/20 transition-transform duration-100"
-                    style={{
-                        transform: `translate(${scrollY * 0.06}px, ${-scrollY * 0.04}px) rotate(${-scrollY * 0.02}deg)`
-                    }}
-                >
-                    <polygon
-                        points="72,18 126,54 126,108 72,144 18,108 18,54"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                    />
-                </svg>
+        <section id="projects" className="container-custom py-32 md:py-40">
+            <div className="max-w-6xl mx-auto px-6">
+                {/* Header */}
+                <div className="mb-24 md:mb-32 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">{t('title')}</h2>
+                    <div className="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                    <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed whitespace-pre-line">
+                        {t('subtitle')}
+                    </p>
+                </div>
 
-                {/* 菱形 */}
-                <svg
-                    className="absolute bottom-20 right-1/4 w-24 h-24 text-cyan-400/25 transition-transform duration-100"
-                    style={{
-                        transform: `translate(${-scrollY * 0.08}px, ${scrollY * 0.06}px) rotate(${scrollY * 0.03}deg)`
-                    }}
-                >
-                    <polygon
-                        points="48,12 84,48 48,84 12,48"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                    />
-                </svg>
+                {/* Projects List */}
+                <div className="space-y-32">
+                    {projects.map((project) => (
+                        <div 
+                            key={project.title} 
+                            className="group relative grid md:grid-cols-12 gap-8 md:gap-16 items-start cursor-pointer"
+                            onClick={() => openModal(project)}
+                        >
+                            {/* Year & Category (Side info) */}
+                            <div className="md:col-span-2 md:text-right pt-2">
+                                <span className="block text-xl font-bold text-foreground mb-2">{project.year}</span>
+                                <span className="block text-xs text-primary uppercase tracking-widest font-medium">{project.category}</span>
+                            </div>
 
-                {/* 小さな五角形 */}
-                <svg
-                    className="absolute top-1/3 right-16 w-20 h-20 text-blue-400/30 transition-transform duration-100"
-                    style={{
-                        transform: `translate(${scrollY * 0.1}px, ${scrollY * 0.05}px) rotate(${-scrollY * 0.04}deg)`
-                    }}
-                >
-                    <polygon
-                        points="40,8 64,28 56,56 24,56 16,28"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                    />
-                </svg>
-            </div>
-
-            {/* コンテンツエリア */}
-            <div className="relative z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* ヘッダー */}
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Projects</h2>
-                        <p className="text-xl text-gray-300">プロジェクト紹介</p>
-                    </div>
-
-                    {/* プロジェクト一覧 */}
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                        {projects.map((project) => (
-                            <div
-                                key={project.title}
-                                className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105"
-                            >
-                                {/* プロジェクト画像とカテゴリ */}
-                                <div className="text-center mb-4">
-                                    <div className="text-4xl mb-2">{project.image}</div>
-                                    <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-400 bg-blue-400/10 rounded-full">
-                                        {project.category}
-                                    </span>
+                            {/* Main Content */}
+                            <div className="md:col-span-10 border-t border-border pt-8 group-hover:border-primary/50 transition-colors duration-300">
+                                <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 mb-6">
+                                    <h3 className="text-3xl md:text-4xl font-bold text-foreground group-hover:text-primary transition-colors">
+                                        {project.title}
+                                    </h3>
+                                    
+                                    <div className="hidden md:flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" onClick={(e) => e.stopPropagation()}>
+                                        <a 
+                                            href={project.github} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                        >
+                                            <Github size={18} />
+                                        </a>
+                                        {project.demo !== "#" && (
+                                            <a 
+                                                href={project.demo} 
+                                                target={project.demo.startsWith('#') || project.demo.startsWith('/') ? "_self" : "_blank"}
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                            >
+                                                <ExternalLink size={18} />
+                                            </a>
+                                        )}
+                                    </div>
                                 </div>
 
-                                {/* プロジェクトタイトル */}
-                                <h3 className="text-xl font-semibold text-white mb-3">{project.title}</h3>
-
-                                {/* プロジェクト説明 */}
-                                <p className="text-gray-200 mb-4 text-sm leading-relaxed">
-                                    {project.description}
+                                <p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-3xl">
+                                    {tData(`${project.id}.description`)}
                                 </p>
 
-                                {/* ハイライトポイント */}
-                                {project.highlights && (
-                                    <div className="mb-4">
-                                        <h4 className="text-sm font-semibold text-gray-300 mb-2">主な特徴</h4>
-                                        <div className="flex flex-wrap gap-1">
-                                            {project.highlights.map((highlight) => (
-                                                <span
-                                                    key={highlight}
-                                                    className="px-2 py-1 text-xs bg-purple-600/20 text-purple-300 rounded-md border border-purple-400/30"
+                                <div className="flex flex-wrap gap-2">
+                                    {project.technologies.map((tech) => (
+                                        <span 
+                                            key={tech}
+                                            className="px-3 py-1 text-xs font-medium bg-secondary text-secondary-foreground rounded-full border border-border"
+                                        >
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+                                
+                                <div className="mt-8 text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-2 transform translate-y-2 group-hover:translate-y-0">
+                                    {t('viewDetails')} <ArrowRightIcon size={16} />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* GitHub Link */}
+                <div className="mt-40 text-center">
+                    <a 
+                        href="https://github.com/fuharu"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1 text-lg group"
+                    >
+                        <span>{t('viewGitHub')}</span>
+                        <ArrowRightIcon size={20} className="group-hover:translate-x-1 transition-transform" />
+                    </a>
+                </div>
+            </div>
+
+            {/* Project Modal */}
+            {selectedProject && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6">
+                    <div 
+                        ref={overlayRef}
+                        className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+                        onClick={closeModal}
+                    />
+                    <div 
+                        ref={modalRef}
+                        className="relative w-full max-w-4xl bg-card border border-border rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+                    >
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between p-6 sm:p-8 border-b border-border bg-card z-10">
+                            <div>
+                                <div className="flex items-center gap-3 mb-2">
+                                    <span className="text-xs font-bold text-primary uppercase tracking-wider px-2 py-1 bg-primary/10 rounded-md">{selectedProject.category}</span>
+                                    <span className="text-sm text-muted-foreground">{selectedProject.year}</span>
+                                </div>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-foreground">{selectedProject.title}</h3>
+                            </div>
+                            <button 
+                                onClick={closeModal}
+                                className="p-2 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        {/* Tabs */}
+                        <div className="flex border-b border-border bg-muted/20 px-6 sm:px-8">
+                            <button
+                                onClick={() => setActiveTab('overview')}
+                                className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                                    activeTab === 'overview' 
+                                        ? 'border-primary text-primary' 
+                                        : 'border-transparent text-muted-foreground hover:text-foreground'
+                                }`}
+                            >
+                                {t('modal.overview')}
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('process')}
+                                className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                                    activeTab === 'process' 
+                                        ? 'border-primary text-primary' 
+                                        : 'border-transparent text-muted-foreground hover:text-foreground'
+                                }`}
+                            >
+                                {t('modal.behindTheScenes')}
+                            </button>
+                        </div>
+
+                        {/* Modal Content - Scrollable */}
+                        <div className="overflow-y-auto p-6 sm:p-10 bg-background/50">
+                            {activeTab === 'overview' ? (
+                                <div className="space-y-10 animate-in fade-in duration-300">
+                                    <div>
+                                        <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                                            <Layers size={20} className="text-primary" />
+                                            {t('modal.summary')}
+                                        </h4>
+                                        <p className="text-muted-foreground leading-loose">
+                                            {tData(`${selectedProject.id}.fullDescription`)}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                                            <CheckCircle2 size={20} className="text-primary" />
+                                            {t('modal.keyFeatures')}
+                                        </h4>
+                                        <ul className="grid sm:grid-cols-2 gap-4">
+                                            {['f1', 'f2', 'f3', 'f4'].map((key, idx) => {
+                                                try {
+                                                    const feature = tData(`${selectedProject.id}.keyFeatures.${key}`);
+                                                    // next-intl might return the key if translation is missing, check usually needed or just map existing keys from data
+                                                    // Since I structured keys as f1, f2..., I can try to fetch them.
+                                                    // Better approach: get the object and iterate keys?
+                                                    // tData.raw(`${selectedProject.id}.keyFeatures`) returns object if I configured it?
+                                                    // For now, I hardcoded f1-f3/f4 in json.
+                                                    if (feature.includes(`${selectedProject.id}.keyFeatures`)) return null; // rudimentary check if missing
+                                                    return (
+                                                        <li key={idx} className="flex items-start gap-3 text-muted-foreground text-sm bg-card p-3 rounded-lg border border-border">
+                                                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                                                            <span className="leading-relaxed">{feature}</span>
+                                                        </li>
+                                                    )
+                                                } catch (e) { return null }
+                                            })}
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                                            <Lightbulb size={20} className="text-primary" />
+                                            {t('modal.techStack')}
+                                        </h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {selectedProject.technologies.map((tech) => (
+                                                <span 
+                                                    key={tech}
+                                                    className="px-4 py-2 text-sm font-medium bg-secondary text-secondary-foreground rounded-lg border border-border"
                                                 >
-                                                    {highlight}
+                                                    {tech}
                                                 </span>
                                             ))}
                                         </div>
                                     </div>
-                                )}
+                                </div>
+                            ) : (
+                                <div className="space-y-10 animate-in fade-in duration-300">
+                                    <div className="bg-red-500/5 border border-red-500/20 p-6 rounded-2xl">
+                                        <h4 className="text-lg font-bold mb-3 text-red-500">{t('modal.challenge')}</h4>
+                                        <p className="text-muted-foreground leading-relaxed">
+                                            {tData(`${selectedProject.id}.process.challenge`)}
+                                        </p>
+                                    </div>
+                                    
+                                    <div className="bg-blue-500/5 border border-blue-500/20 p-6 rounded-2xl">
+                                        <h4 className="text-lg font-bold mb-3 text-blue-500">{t('modal.solution')}</h4>
+                                        <p className="text-muted-foreground leading-relaxed">
+                                            {tData(`${selectedProject.id}.process.solution`)}
+                                        </p>
+                                    </div>
 
-                                {/* 使用技術 */}
-                                <div className="mb-4">
-                                    <h4 className="text-sm font-semibold text-gray-300 mb-2">使用技術</h4>
-                                    <div className="flex flex-wrap gap-2">
-                                        {project.technologies.map((tech) => (
-                                            <span
-                                                key={tech}
-                                                className="px-2 py-1 text-xs bg-white/10 text-white rounded-md border border-white/20"
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
+                                    <div className="bg-green-500/5 border border-green-500/20 p-6 rounded-2xl">
+                                        <h4 className="text-lg font-bold mb-3 text-green-500">{t('modal.outcome')}</h4>
+                                        <p className="text-muted-foreground leading-relaxed">
+                                            {tData(`${selectedProject.id}.process.outcome`)}
+                                        </p>
                                     </div>
                                 </div>
-
-                                {/* リンクボタン */}
-                                <div className="flex gap-2">
-                                    <a
-                                        href={project.github}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-blue-600/50 hover:bg-blue-600/70 rounded-lg transition-all duration-300"
-                                    >
-                                        GitHub
-                                    </a>
-                                    {project.demo !== "#" && (
-                                        <a
-                                            href={project.demo}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex-1 text-center px-3 py-2 text-sm font-medium text-blue-400 border border-blue-400/50 hover:bg-blue-400/10 rounded-lg transition-all duration-300"
-                                        >
-                                            Demo
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* 開発経験セクション */}
-                    <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm p-8 rounded-xl border border-white/20">
-                        <h3 className="text-2xl font-semibold text-white mb-6 text-center">開発経験</h3>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {experienceItems.map((item) => (
-                                <div key={item.title} className="text-center">
-                                    <div className="text-3xl mb-3">{item.icon}</div>
-                                    <h4 className="text-lg font-semibold text-white mb-2">{item.title}</h4>
-                                    <p className="text-gray-200 text-sm leading-relaxed">{item.description}</p>
-                                </div>
-                            ))}
+                            )}
                         </div>
-                    </div>
 
-                    {/* CTA */}
-                    <div className="text-center mt-12">
-                        <p className="text-gray-300 mb-4">
-                            これらのプロジェクトについて詳しく知りたい方や、共同開発の機会をお探しの方は、お気軽にお問い合わせください。
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a
-                                href="/contact"
-                                className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:scale-105"
+                        {/* Modal Footer */}
+                        <div className="p-6 border-t border-border bg-muted/30 flex gap-4 shrink-0">
+                            <a 
+                                href={selectedProject.github} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-card border border-border rounded-xl font-bold hover:bg-accent transition-colors text-foreground shadow-sm"
                             >
-                                お問い合わせ
+                                <Github size={20} />
+                                <span>{t('modal.viewSource')}</span>
                             </a>
-                            <a
-                                href="/ai-chat"
-                                className="inline-block border border-blue-400 text-blue-400 px-8 py-3 rounded-lg font-semibold hover:bg-blue-400/10 transition-all duration-300 hover:scale-105"
-                            >
-                                AI Chat で質問
-                            </a>
+                            {selectedProject.demo !== "#" && (
+                                <a 
+                                    href={selectedProject.demo} 
+                                    target={selectedProject.demo.startsWith('#') || selectedProject.demo.startsWith('/') ? "_self" : "_blank"}
+                                    rel="noopener noreferrer"
+                                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary text-primary-foreground rounded-xl font-bold hover:opacity-90 transition-all shadow-sm hover:shadow-md hover:shadow-primary/20"
+                                >
+                                    <ExternalLink size={20} />
+                                    <span>{t('modal.liveDemo')}</span>
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </section>
     )
 }
