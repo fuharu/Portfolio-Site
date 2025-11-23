@@ -1,5 +1,6 @@
 'use client'
 import { Link } from '@/navigation'
+import Image from 'next/image'
 import { Heart, Globe, Award, ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
