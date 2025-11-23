@@ -218,7 +218,7 @@ export default function FeaturedWorks() {
                                                             {feature}
                                                         </li>
                                                     )
-                                                } catch (e) { return null }
+                                                } catch { return null }
                                             })}
                                         </ul>
                                     </div>

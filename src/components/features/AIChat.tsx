@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { MessageSquare, Send, X, RefreshCw, User, Bot, GripHorizontal } from 'lucide-react'
 import { useAIChat } from '@/contexts/AIChatContext'
 

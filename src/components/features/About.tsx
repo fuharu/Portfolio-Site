@@ -1,5 +1,5 @@
 'use client'
-import Image from 'next/image'
+import { Link } from '@/navigation'
 import { Heart, Globe, Award, ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
@@ -145,12 +145,12 @@ export default function About() {
                     <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto leading-relaxed whitespace-pre-line">
                         {t('ctaDescription')}
                     </p>
-                    <a 
+                    <Link 
                         href="/contact" 
                         className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground rounded-full font-bold text-lg hover:opacity-90 transition-all hover:scale-105 shadow-lg"
                     >
                         {t('ctaButton')} <ArrowRight size={20} />
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>

@@ -3,14 +3,12 @@ import { useState, useEffect } from 'react'
 // import Link from 'next/link' // Use Link from navigation for auto locale prefix
 import { useTheme } from 'next-themes'
 import { Moon, Sun, Menu, X } from 'lucide-react'
-import { useAIChat } from '@/contexts/AIChatContext'
 import { useTranslations, useLocale } from 'next-intl'
 import { usePathname, useRouter, Link } from '@/navigation'
 
 export default function Navigation() {
     const [mounted, setMounted] = useState(false)
     const { theme, setTheme } = useTheme()
-    const { openChat } = useAIChat()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const t = useTranslations('Navigation')
     const pathname = usePathname()

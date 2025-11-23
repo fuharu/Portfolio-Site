@@ -230,7 +230,7 @@ export default function Projects() {
                                                             <span className="leading-relaxed">{feature}</span>
                                                         </li>
                                                     )
-                                                } catch (e) { return null }
+                                                } catch { return null }
                                             })}
                                         </ul>
                                     </div>

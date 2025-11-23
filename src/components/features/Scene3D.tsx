@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect, Suspense } from 'react'
+import { useRef, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { MeshTransmissionMaterial, Environment, Float } from '@react-three/drei'
 import { EffectComposer, Bloom, Noise, Vignette } from '@react-three/postprocessing'

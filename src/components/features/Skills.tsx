@@ -20,7 +20,7 @@ interface SkillCategory {
 }
 
 export default function Skills() {
-    const [activeSkill, setActiveSkill] = useState<string | null>(null)
+    const [, setActiveSkill] = useState<string | null>(null)
     const t = useTranslations('Skills')
 
     // スキルに関連するプロジェクトを取得するヘルパー関数
